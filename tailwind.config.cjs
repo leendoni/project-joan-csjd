@@ -3,10 +3,14 @@ const config = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 
 	theme: {
-		extend: {}
+		extend: {
+			fontFamily: {
+				sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+			  },
+		}
 	},
 
-	plugins: []
+	plugins: [require("rippleui")]
 };
 
 module.exports = config;
