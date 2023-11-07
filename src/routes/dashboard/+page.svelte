@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 
 	import { initializeApp } from 'firebase/app';
+	import { doc, getDoc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
 
 	const firebaseConfig = {
 		apiKey: 'AIzaSyCJXvnm6dIMnD8AQtNUw-OSZV8yq1HMDXI',
@@ -14,9 +15,16 @@
 	};
 
 	const app = initializeApp(firebaseConfig);
+	const db = getFirestore(app);
 
-	let isChecked = false;
+	// functions below must exist on all documents
 
+	const modlID = 'A04';
+	const modlNM = 'Dashboard';
+
+	let modlST = true;
+
+	// local values
 	let loclID = '',
 		loclLN = '',
 		loclFN = '',
@@ -25,6 +33,20 @@
 
 	let activeMenu = null;
 
+	// generate ID
+	function makeID() {
+		const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		let randomString = '';
+
+		for (let i = 0; i < 6; i++) {
+			const randomIndex = Math.floor(Math.random() * charset.length);
+			randomString += charset.charAt(randomIndex);
+		}
+
+		return randomString;
+	}
+
+	// accordion menu
 	function toggleMenu(event) {
 		const checkbox = event.target;
 
@@ -32,9 +54,9 @@
 			if (activeMenu && activeMenu !== checkbox) {
 				activeMenu.checked = false;
 			}
+
 			activeMenu = checkbox;
 
-			// Automatically collapse the menu after 4 seconds
 			setTimeout(() => {
 				checkbox.checked = false;
 				activeMenu = null;
@@ -43,6 +65,90 @@
 			activeMenu = null;
 		}
 	}
+
+	// action logs
+	function handleAction(axonST, axonDC, axonBY) {
+		let axonID = makeID();
+
+		const logRef = doc(db, 'csjd-main', 'data', 'logs', axonID);
+		const logData = {
+			axonID,
+			axonST,
+			axonDC,
+			axonBY,
+			axonON: modlNM,
+			axonDT: new Date()
+		};
+
+		setDoc(logRef, logData)
+			.then(() => {
+				console.log('Action logged successfully.');
+			})
+			.catch((error) => {
+				console.error('Error logging action:', error);
+			});
+	}
+
+	// check module status
+	async function checkModuleAccess() {
+		try {
+			const moduleDocRef = doc(db, 'csjd-main', 'defaults', 'module', `${modlNM}`);
+			const moduleDocSnapshot = await getDoc(moduleDocRef);
+
+			if (moduleDocSnapshot.exists()) {
+				const moduleData = moduleDocSnapshot.data();
+				modlST = moduleData.enabled;
+			} else {
+				console.log('Module document not found.');
+			}
+		} catch (error) {
+			console.error('Error fetching module data:', error);
+		}
+	}
+
+	async function handleLogout() {
+		const updatedData = {
+			userOL: false
+		};
+
+		const docRef = doc(
+			db,
+			'csjd-main',
+			'data',
+			'users',
+			`${loclLN.toLowerCase()}.${loclID.toString()}@csjd.joan.cloud`
+		);
+
+		try {
+			await updateDoc(docRef, updatedData);
+		} catch (error) {
+			console.error('Error updating document:', error);
+		}
+
+		handleAction(
+			'Successful',
+			`User ${loclLN.toLowerCase()} logged out.`,
+			`${loclLN}, ${loclFN} ${loclMN}`
+		);
+
+		localStorage.removeItem('loclID');
+		localStorage.removeItem('loclLN');
+		localStorage.removeItem('loclFN');
+		localStorage.removeItem('loclMN');
+		localStorage.removeItem('loclCL');
+
+		goto('/login');
+	}
+
+	onMount(async () => {
+		loclID = localStorage.getItem('loclID');
+		loclLN = localStorage.getItem('loclLN');
+		loclFN = localStorage.getItem('loclFN');
+		loclMN = localStorage.getItem('loclMN');
+		loclCL = localStorage.getItem('loclCL');
+
+		checkModuleAccess();
+	});
 </script>
 
 <div class="flex flex-col w-screen h-screen items-center overflow-x-hidden">
@@ -116,7 +222,7 @@
 			</label>
 		</div>
 		<div class="navbar-end">
-			<p>Dashboard</p>
+			<p>{modlNM}</p>
 		</div>
 	</div>
 
@@ -518,14 +624,27 @@
 						<div class="divider my-0" />
 						<a
 							href="/login"
-							class="dropdown-item text-sm">Logout</a>
+							class="dropdown-item text-sm"
+							on:click={handleLogout}>Logout</a>
 					</div>
 				</div>
 			</section>
 		</aside>
 	</div>
 
-	<div class="flex flex-col h-full w-full pt-20 pl-6 lg:pl-80 pr-6">
-		<h1 class="text-2xl font-semibold">Campus Bulletin</h1>
-	</div>
+	{#if modlST}
+		<div class="flex flex-col h-full w-full pt-20 pl-6 lg:pl-80 pr-6" />
+	{:else if !modlST}
+		<div
+			class="flex flex-col h-screen w-screen justify-center pt-20 pb-8 pl-6 lg:pl-80 pr-6 gap-8 bg-white dark:bg-backgroundPrimary">
+			<div class="flex flex-col">
+				<h1 class="text-6xl font-bold">This module<br /> is disabled.</h1>
+				<br />
+				<p class="text-sm">
+					This module is currently disabled by your system administrator. <br />
+					Check back for availability later.
+				</p>
+			</div>
+		</div>
+	{/if}
 </div>

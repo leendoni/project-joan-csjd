@@ -1,9 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
 
 	import { initializeApp } from 'firebase/app';
-	import { getFirestore, collection, doc, onSnapshot, setDoc } from 'firebase/firestore';
+	import { doc, getFirestore, onSnapshot, setDoc } from 'firebase/firestore';
 
 	const firebaseConfig = {
 		apiKey: 'AIzaSyCJXvnm6dIMnD8AQtNUw-OSZV8yq1HMDXI',
@@ -167,6 +166,12 @@
 	}
 
 	onMount(async () => {
+		loclID = localStorage.getItem('loclID');
+		loclLN = localStorage.getItem('loclLN');
+		loclFN = localStorage.getItem('loclFN');
+		loclMN = localStorage.getItem('loclMN');
+		loclCL = localStorage.getItem('loclCL');
+
 		// for system settings
 		systemSettings.forEach((setting) => {
 			const settingRef = doc(db, 'csjd-main', 'defaults', 'system', setting.path);

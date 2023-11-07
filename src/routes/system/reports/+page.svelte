@@ -1,9 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
 
 	import { initializeApp } from 'firebase/app';
-	import { getFirestore, collection, doc, onSnapshot, setDoc, getDocs } from 'firebase/firestore';
+	import { collection, doc, getDoc, getDocs, getFirestore, setDoc } from 'firebase/firestore';
 
 	const firebaseConfig = {
 		apiKey: 'AIzaSyCJXvnm6dIMnD8AQtNUw-OSZV8yq1HMDXI',
@@ -16,9 +15,6 @@
 
 	const app = initializeApp(firebaseConfig);
 	const db = getFirestore(app);
-
-	const modlID = 'X02';
-	const modlNM = 'System Reports';
 
 	let data = [];
 	let limitedData = [];
@@ -45,7 +41,6 @@
 
 	function applyFilter(filter) {
 		selectedFilter = filter;
-		// Update limitedData based on the selected filter
 		updateLimitedData();
 	}
 
@@ -73,7 +68,6 @@
 				limitedData = data.slice(currentPage * 6, (currentPage + 1) * 6);
 				break;
 			default:
-				// Filter 'All' (no filter)
 				limitedData = data.slice(currentPage * 6, (currentPage + 1) * 6);
 		}
 	}
@@ -82,8 +76,6 @@
 
 	function changePage(pageNum) {
 		currentPage = pageNum;
-
-		// Update limitedData based on the current page
 		limitedData = data.slice(currentPage * 6, (currentPage + 1) * 6);
 	}
 
@@ -107,7 +99,57 @@
 		selectedRowData = data;
 	}
 
+	import ExcelJS from 'exceljs';
+
+	async function handleExport() {
+		const templateUrl = '/Reports.xlsx';
+		const templateResponse = await fetch(templateUrl);
+		const templateBuffer = await templateResponse.arrayBuffer();
+
+		const workbook = new ExcelJS.Workbook();
+		await workbook.xlsx.load(templateBuffer);
+
+		workbook.eachSheet((sheet) => {
+			if (sheet.name !== 'ActionReport') {
+				workbook.removeWorksheet(sheet.id);
+			}
+		});
+
+		const worksheet = workbook.getWorksheet('ActionReport');
+
+		worksheet.getCell('I9').value = selectedRowData.axonID;
+		worksheet.getCell('I10').value = selectedRowData.axonON;
+		worksheet.getCell('I11').value = selectedRowData.axonDC;
+		worksheet.getCell('I12').value = selectedRowData.axonBY;
+		worksheet.getCell('I13').value = selectedRowData.axonST;
+		worksheet.getCell('I14').value = selectedRowData.axonDT;
+
+		worksheet.protect('joan-csjd-main', {
+			selectLockedCells: false
+		});
+
+		const buffer = await workbook.xlsx.writeBuffer();
+
+		const blob = new Blob([buffer], {
+			type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+		});
+
+		const url = URL.createObjectURL(blob);
+
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `SAR-${selectedRowData.axonID}.xlsx`;
+		a.click();
+
+		URL.revokeObjectURL(url);
+	}
+
 	// functions below must exist on all documents
+
+	const modlID = 'X02';
+	const modlNM = 'System Reports';
+
+	let modlST = true;
 
 	// local values
 	let loclID = '',
@@ -174,8 +216,32 @@
 			});
 	}
 
+	// check module status
+	async function checkModuleAccess() {
+		try {
+			const moduleDocRef = doc(db, 'csjd-main', 'defaults', 'module', `${modlNM}`);
+			const moduleDocSnapshot = await getDoc(moduleDocRef);
+
+			if (moduleDocSnapshot.exists()) {
+				const moduleData = moduleDocSnapshot.data();
+				modlST = moduleData.enabled;
+			} else {
+				console.log('Module document not found.');
+			}
+		} catch (error) {
+			console.error('Error fetching module data:', error);
+		}
+	}
+
 	onMount(async () => {
+		loclID = localStorage.getItem('loclID');
+		loclLN = localStorage.getItem('loclLN');
+		loclFN = localStorage.getItem('loclFN');
+		loclMN = localStorage.getItem('loclMN');
+		loclCL = localStorage.getItem('loclCL');
+
 		await getActionLogs();
+		checkModuleAccess();
 	});
 </script>
 
@@ -660,132 +726,155 @@
 		</aside>
 	</div>
 
-	<div
-		class="flex flex-col h-auto w-full lg:w-5/6 pt-20 pb-8 pl-6 lg:pl-80 pr-6 gap-8 bg-white dark:bg-backgroundPrimary">
-		<div class="flex flex-col">
-			<h1 class="text-xl font-semibold">System Analytics</h1>
-			<p class="text-xs">Below are the current totals of certain values in the system.</p>
-		</div>
-		<div class="divider my-0" />
-		<div class="flex flex-col">
-			<h1 class="text-xl font-semibold">System Reports</h1>
-			<p class="text-xs">Below is a masterlog of all system activities.</p>
-		</div>
-		<div class="flex flex-row justify-between">
-			<div class="flex flex-row gap-2">
-				<input
-					class="input"
-					placeholder="Search..."
-					on:input={handleSearch} />
-				<div class="dropdown dropdown-hover">
+	{#if modlST}
+		<div
+			class="flex flex-col h-auto w-full lg:w-5/6 pt-20 pb-8 pl-6 lg:pl-80 pr-6 gap-8 bg-white dark:bg-backgroundPrimary">
+			<div class="flex flex-col">
+				<h1 class="text-xl font-semibold">System Analytics</h1>
+				<p class="text-xs">
+					Below are the current totals of certain values in the system (as of today).
+				</p>
+			</div>
+			<div class="divider my-0" />
+			<div class="flex flex-col">
+				<h1 class="text-xl font-semibold">System Reports</h1>
+				<p class="text-xs">Below is a masterlog of all system activities.</p>
+			</div>
+			<div class="flex flex-row justify-between">
+				<div class="flex flex-row gap-2">
+					<input
+						class="input"
+						placeholder="Search..."
+						on:input={handleSearch} />
+					<div class="dropdown dropdown-hover">
+						<button
+							class="btn btn-outline-secondary"
+							tabindex="0">Filter</button>
+						<div class="dropdown-menu dropdown-menu-right-bottom ml-2">
+							<p
+								class="dropdown-item text-sm"
+								on:click={() => applyFilter('Successful')}>
+								Successful
+							</p>
+							<p
+								class="dropdown-item text-sm"
+								on:click={() => applyFilter('Unsuccessful')}>
+								Unsuccessful
+							</p>
+							<div class="divider my-0" />
+							<p
+								class="dropdown-item text-sm"
+								on:click={() => applyFilter('Recent First')}>
+								Recent First
+							</p>
+							<p
+								class="dropdown-item text-sm"
+								on:click={() => applyFilter('Oldest First')}>
+								Oldest First
+							</p>
+							<div class="divider my-0" />
+							<p
+								class="dropdown-item text-sm"
+								on:click={() => applyFilter('Clear Filter')}>
+								Clear Filter
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="flex flex-row gap-2">
 					<button
-						class="btn btn-outline-secondary"
-						tabindex="0">Filter</button>
-					<div class="dropdown-menu dropdown-menu-right-bottom ml-2">
-						<p
-							class="dropdown-item text-sm"
-							on:click={() => applyFilter('Successful')}>
-							Successful
-						</p>
-						<p
-							class="dropdown-item text-sm"
-							on:click={() => applyFilter('Unsuccessful')}>
-							Unsuccessful
-						</p>
-						<div class="divider my-0" />
-						<p
-							class="dropdown-item text-sm"
-							on:click={() => applyFilter('Recent First')}>
-							Recent First
-						</p>
-						<p
-							class="dropdown-item text-sm"
-							on:click={() => applyFilter('Oldest First')}>
-							Oldest First
-						</p>
-						<div class="divider my-0" />
-						<p
-							class="dropdown-item text-sm"
-							on:click={() => applyFilter('Clear Filter')}>
-							Clear Filter
-						</p>
+						class="btn btn-outline-success"
+						on:click={() => getActionLogs()}>Refresh</button>
+					<div class="pagination">
+						<button
+							class="btn"
+							on:click={() => changePage(currentPage - 1)}
+							disabled={currentPage === 0}>
+							<svg
+								width="18"
+								height="18"
+								viewBox="0 0 20 20"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<path
+									fill-rule="evenodd"
+									clip-rule="evenodd"
+									d="M12.2574 5.59165C11.9324 5.26665 11.4074 5.26665 11.0824 5.59165L7.25742 9.41665C6.93242 9.74165 6.93242 10.2667 7.25742 10.5917L11.0824 14.4167C11.4074 14.7417 11.9324 14.7417 12.2574 14.4167C12.5824 14.0917 12.5824 13.5667 12.2574 13.2417L9.02409 9.99998L12.2574 6.76665C12.5824 6.44165 12.5741 5.90832 12.2574 5.59165Z"
+									fill="#969696" />
+							</svg>
+						</button>
+						<button
+							class="btn btn-outline-primary"
+							on:click={() => changePage(currentPage + 1)}
+							disabled={currentPage === Math.floor(data.length / 6)}>
+							<svg
+								width="18"
+								height="18"
+								viewBox="0 0 20 20"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<path
+									fill-rule="evenodd"
+									clip-rule="evenodd"
+									d="M7.74375 5.2448C7.41875 5.5698 7.41875 6.0948 7.74375 6.4198L10.9771 9.65314L7.74375 12.8865C7.41875 13.2115 7.41875 13.7365 7.74375 14.0615C8.06875 14.3865 8.59375 14.3865 8.91875 14.0615L12.7437 10.2365C13.0687 9.91147 13.0687 9.38647 12.7437 9.06147L8.91875 5.23647C8.60208 4.9198 8.06875 4.9198 7.74375 5.2448Z"
+									fill="#969696" />
+							</svg>
+						</button>
 					</div>
 				</div>
 			</div>
-			<div class="flex flex-row gap-2">
-				<button
-					class="btn btn-outline-success"
-					on:click={() => getActionLogs()}>Refresh</button>
-				<div class="pagination">
-					<button
-						class="btn"
-						on:click={() => changePage(currentPage - 1)}
-						disabled={currentPage === 0}>
-						<svg
-							width="18"
-							height="18"
-							viewBox="0 0 20 20"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg">
-							<path
-								fill-rule="evenodd"
-								clip-rule="evenodd"
-								d="M12.2574 5.59165C11.9324 5.26665 11.4074 5.26665 11.0824 5.59165L7.25742 9.41665C6.93242 9.74165 6.93242 10.2667 7.25742 10.5917L11.0824 14.4167C11.4074 14.7417 11.9324 14.7417 12.2574 14.4167C12.5824 14.0917 12.5824 13.5667 12.2574 13.2417L9.02409 9.99998L12.2574 6.76665C12.5824 6.44165 12.5741 5.90832 12.2574 5.59165Z"
-								fill="#969696" />
-						</svg>
-					</button>
-					<button
-						class="btn btn-outline-primary"
-						on:click={() => changePage(currentPage + 1)}
-						disabled={currentPage === Math.floor(data.length / 6)}>
-						<svg
-							width="18"
-							height="18"
-							viewBox="0 0 20 20"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg">
-							<path
-								fill-rule="evenodd"
-								clip-rule="evenodd"
-								d="M7.74375 5.2448C7.41875 5.5698 7.41875 6.0948 7.74375 6.4198L10.9771 9.65314L7.74375 12.8865C7.41875 13.2115 7.41875 13.7365 7.74375 14.0615C8.06875 14.3865 8.59375 14.3865 8.91875 14.0615L12.7437 10.2365C13.0687 9.91147 13.0687 9.38647 12.7437 9.06147L8.91875 5.23647C8.60208 4.9198 8.06875 4.9198 7.74375 5.2448Z"
-								fill="#969696" />
-						</svg>
-					</button>
-				</div>
-			</div>
-		</div>
-		<div class="flex w-full overflow-x-auto">
-			<table class="table table-hover table-compact">
-				<thead>
-					<tr>
-						<th>Date & Time</th>
-						<th>Description</th>
-						<th>Performed By</th>
-						<th>Status</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each limitedData as item (item.axonID)}
-						<tr on:click={() => handleRowClick(item)}>
-							<td>{item.axonDT}</td>
-							<td>{item.axonDC}</td>
-							<td>{item.axonBY}</td>
-							<td>{item.axonST}</td>
+			<div class="flex w-full overflow-x-auto">
+				<table class="table table-hover table-compact">
+					<thead>
+						<tr>
+							<th>Date & Time</th>
+							<th>Description</th>
+							<th>Performed By</th>
+							<!-- <th>Status</th> -->
 						</tr>
-					{/each}
-				</tbody>
-			</table>
-		</div>
-		{#if selectedRowData}
-			<div>
-				<p>Action ID: {selectedRowData.axonID}</p>
-				<p>Module: {selectedRowData.axonON}</p>
-				<p>Description: {selectedRowData.axonDC}</p>
-				<p>Performed By: {selectedRowData.axonBY}</p>
-				<p>Status: {selectedRowData.axonST}</p>
-				<p>Date & Time: {selectedRowData.axonDT}</p>
+					</thead>
+					<tbody>
+						{#each limitedData as item (item.axonID)}
+							<tr on:click={() => handleRowClick(item)}>
+								<td>{item.axonDT}</td>
+								<td>{item.axonDC}</td>
+								<td>{item.axonBY}</td>
+								<!-- <td>{item.axonST}</td> -->
+							</tr>
+						{/each}
+					</tbody>
+				</table>
 			</div>
-			<button class="btn btn-outline-success">Refresh</button>
-		{/if}
-	</div>
+			<div class="divider my-0" />
+			<div class="flex flex-col">
+				<h1 class="text-xl font-semibold">Specific Action Report</h1>
+				<p class="text-xs">Select a report log item from the table to load its contents.</p>
+			</div>
+			{#if selectedRowData}
+				<div id="pdf-content">
+					<p>Action ID: {selectedRowData.axonID}</p>
+					<p>Module: {selectedRowData.axonON}</p>
+					<p>Description: {selectedRowData.axonDC}</p>
+					<p>Performed By: {selectedRowData.axonBY}</p>
+					<p>Status: {selectedRowData.axonST}</p>
+					<p>Date & Time: {selectedRowData.axonDT}</p>
+				</div>
+				<button
+					class="btn btn-outline-primary"
+					on:click={handleExport}>Export</button>
+			{/if}
+		</div>
+	{:else if !modlST}
+		<div
+			class="flex flex-col h-screen w-screen justify-center pt-20 pb-8 pl-6 lg:pl-80 pr-6 gap-8 bg-white dark:bg-backgroundPrimary">
+			<div class="flex flex-col">
+				<h1 class="text-6xl font-bold">This module<br /> is disabled.</h1>
+				<br />
+				<p class="text-sm">
+					This module is currently disabled by your system administrator. <br />
+					Check back for availability later.
+				</p>
+			</div>
+		</div>
+	{/if}
 </div>

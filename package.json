@@ -28,7 +28,9 @@
 	"type": "module",
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
+		"exceljs": "^4.4.0",
 		"firebase": "^10.5.2",
+		"html2pdf.js": "^0.10.1",
 		"rippleui": "^1.12.1"
 	}
 }
