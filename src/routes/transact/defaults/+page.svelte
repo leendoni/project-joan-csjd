@@ -29,37 +29,30 @@
 		const sectST = document.getElementById('sectST').value;
 		const sectDP = document.getElementById('sectDP').value;
 		const sectYR = document.getElementById('sectYR').value;
-		const sectNM = document.getElementById('sectNM').value;
-		const sectAV = document.getElementById('sectAV').value;
+		const pmntNM = document.getElementById('pmntNM').value;
+		const pmntAM = document.getElementById('pmntAM').value;
 		const sectSC = '';
 
-		const sectionData = {
-			sectID,
-			sectST,
-			sectDP,
-			sectYR,
-			sectNM,
-			sectAV,
-			sectSC
+		const paymentData = {
+			pmntID,
+			pmntST,
+			pmntAY,
+			pmntTP,
+			pmntNM,
+			pmntDC,
+			pmntAM,
+			pmntBY
 		};
 
 		try {
-			const docRef = doc(db, 'csjd-main', 'data', 'sections', sectNM);
-			await setDoc(docRef, sectionData);
+			const docRef = doc(db, 'csjd-main', 'defaults', 'payment', pmntNM);
+			await setDoc(docRef, paymentData);
 
-			handleAction('Successful', `Added section ${sectNM}`, `${loclLN}, ${loclFN} ${loclMN}`);
-
-			document.getElementById('sectST').value = '';
-			document.getElementById('sectDP').value = '';
-			document.getElementById('sectYR').value = '';
-			document.getElementById('sectNM').value = '';
-			document.getElementById('sectAV').value = '';
-
-			isCreating = false;
-			isSelecting = false;
-			isEditing = false;
+			console.log('Transaction created with ID: ', pmntNM);
+			return true;
 		} catch (error) {
-			console.error('Error creating section: ', error);
+			console.error('Error creating transaction: ', error);
+			return false;
 		}
 	}
 
@@ -67,27 +60,27 @@
 		const sectST = document.getElementById('sectST').value;
 		const sectDP = document.getElementById('sectDP').value;
 		const sectYR = document.getElementById('sectYR').value;
-		const sectNM = document.getElementById('sectNM').value;
-		const sectAV = document.getElementById('sectAV').value;
+		const pmntNM = document.getElementById('pmntNM').value;
+		const pmntAM = document.getElementById('pmntAM').value;
 		const sectSC = '';
 
 		const updatedSectionData = {
 			sectST,
 			sectDP,
 			sectYR,
-			sectNM,
-			sectAV,
+			pmntNM,
+			pmntAM,
 			sectSC
 		};
 
 		try {
-			const sectionRef = doc(db, 'csjd-main', 'data', 'sections', sectNM);
+			const sectionRef = doc(db, 'csjd-main', 'data', 'sections', pmntNM);
 			const sectionSnapshot = await getDoc(sectionRef);
 
 			if (sectionSnapshot.exists()) {
 				await updateDoc(sectionRef, updatedSectionData);
 
-				handleAction('Successful', `Updated section ${sectNM}`, `${loclLN}, ${loclFN} ${loclMN}`);
+				handleAction('Successful', `Updated section ${pmntNM}`, `${loclLN}, ${loclFN} ${loclMN}`);
 
 				isSelecting = true;
 				isEditing = false;
@@ -144,7 +137,7 @@
 
 			facultyUsers = users.filter((user) => user.userCL === 'Faculty');
 
-			const adviserSelect = document.getElementById('sectAV');
+			const adviserSelect = document.getElementById('pmntAM');
 
 			if (adviserSelect) {
 				adviserSelect.innerHTML = '';
@@ -209,7 +202,7 @@
 	function handleSearch(event) {
 		searchQuery = event.target.value.toLowerCase();
 		limitedSections = sections
-			.filter((section) => section.sectNM.toLowerCase().includes(searchQuery))
+			.filter((section) => section.pmntNM.toLowerCase().includes(searchQuery))
 			.slice(0, 6);
 	}
 
@@ -249,9 +242,9 @@
 		const worksheet = workbook.getWorksheet('Sections');
 
 		worksheet.getCell('I9').value = selectedSectionData.sectDP;
-		worksheet.getCell('I11').value = selectedSectionData.sectNM;
+		worksheet.getCell('I11').value = selectedSectionData.pmntNM;
 		worksheet.getCell('I12').value = selectedSectionData.sectYR;
-		worksheet.getCell('I14').value = selectedSectionData.sectAV;
+		worksheet.getCell('I14').value = selectedSectionData.pmntAM;
 
 		worksheet.protect('joan-csjd-main', {
 			selectLockedCells: false
@@ -267,7 +260,7 @@
 
 		const a = document.createElement('a');
 		a.href = url;
-		a.download = `SI-${selectedSectionData.sectNM}.xlsx`;
+		a.download = `SI-${selectedSectionData.pmntNM}.xlsx`;
 		a.click();
 
 		URL.revokeObjectURL(url);
@@ -275,8 +268,8 @@
 
 	// functions below must exist on all documents
 
-	const modlID = 'D02';
-	const modlNM = 'Transaction Defaults';
+	const modlID = 'B03';
+	const modlNM = 'Section Management';
 
 	let modlST = true;
 
@@ -577,6 +570,7 @@
 							</li>
 							<li>
 								<input
+									checked
 									type="checkbox"
 									id="menu-2"
 									class="menu-toggle"
@@ -610,7 +604,7 @@
 											class="menu-item ml-6">Subject Management</a>
 										<a
 											href="/manage/sections"
-											class="menu-item ml-6">Section Management</a>
+											class="menu-item menu-active ml-6">Section Management</a>
 										<a
 											href="/manage/schedules"
 											class="menu-item ml-6">Schedule Management</a>
@@ -675,7 +669,6 @@
 							</li>
 							<li>
 								<input
-									checked
 									type="checkbox"
 									id="menu-4"
 									class="menu-toggle"
@@ -706,7 +699,7 @@
 											class="menu-item ml-6">Transactions</a>
 										<a
 											href="/transact/defaults"
-											class="menu-item menu-active ml-6">Transaction Defaults</a>
+											class="menu-item ml-6">Transaction Defaults</a>
 									</div>
 								</div>
 							</li>
@@ -944,6 +937,7 @@
 					<thead>
 						<tr>
 							<th>Status</th>
+							<th>Section Year</th>
 							<th>Section Name</th>
 							<th>Department</th>
 						</tr>
@@ -962,7 +956,8 @@
 								}}
 								on:click={() => handleRowClick(section)}>
 								<td>{section.sectST}</td>
-								<td>{section.sectNM}</td>
+								<td>{section.sectYR}</td>
+								<td>{section.pmntNM}</td>
 								<td>{section.sectDP}</td>
 							</tr>
 						{/each}
@@ -1057,12 +1052,12 @@
 					</div>
 					<div class="form-field w-full lg:w-1/2">
 						<label
-							for="sectNM"
+							for="pmntNM"
 							class="form-label">Section Name</label>
 						<input
-							id="sectNM"
+							id="pmntNM"
 							class="input max-w-full"
-							bind:value={selectedSectionData.sectNM}
+							bind:value={selectedSectionData.pmntNM}
 							readonly />
 					</div>
 					<div class="form-field lg:w-1/2">
@@ -1084,12 +1079,12 @@
 					</div>
 					<div class="form-field lg:w-1/2">
 						<label
-							for="sectAV"
+							for="pmntAM"
 							class="form-label">Adviser</label>
 						<select
-							id="sectAV"
+							id="pmntAM"
 							class="select"
-							bind:value={selectedSectionData.sectAV}>
+							bind:value={selectedSectionData.pmntAM}>
 							{#each facultyUsers as facultyUser (facultyUser.userUN)}
 								<option value="{facultyUser.userLN}, {facultyUser.userFN} {facultyUser.userMN}">
 									{facultyUser.userLN}, {facultyUser.userFN}
@@ -1127,12 +1122,12 @@
 					</div>
 					<div class="form-field w-full lg:w-1/2">
 						<label
-							for="sectNM"
+							for="pmntNM"
 							class="form-label">Section Name</label>
 						<input
-							id="sectNM"
+							id="pmntNM"
 							class="input max-w-full"
-							bind:value={selectedSectionData.sectNM}
+							bind:value={selectedSectionData.pmntNM}
 							readonly />
 					</div>
 					<div class="form-field lg:w-1/2">
@@ -1147,12 +1142,12 @@
 					</div>
 					<div class="form-field lg:w-1/2">
 						<label
-							for="sectAV"
+							for="pmntAM"
 							class="form-label">Adviser</label>
 						<input
-							id="sectAV"
+							id="pmntAM"
 							class="input max-w-full"
-							bind:value={selectedSectionData.sectAV}
+							bind:value={selectedSectionData.pmntAM}
 							readonly />
 					</div>
 				</div>
@@ -1189,12 +1184,12 @@
 					</div>
 					<div class="form-field w-full lg:w-1/2">
 						<label
-							for="sectNM"
+							for="pmntNM"
 							class="form-label">Section Name</label>
 						<input
-							id="sectNM"
+							id="pmntNM"
 							class="input max-w-full"
-							bind:value={selectedSectionData.sectNM} />
+							bind:value={selectedSectionData.pmntNM} />
 					</div>
 					<div class="form-field lg:w-1/2">
 						<label
@@ -1215,12 +1210,12 @@
 					</div>
 					<div class="form-field lg:w-1/2">
 						<label
-							for="sectAV"
+							for="pmntAM"
 							class="form-label">Adviser</label>
 						<select
-							id="sectAV"
+							id="pmntAM"
 							class="select"
-							bind:value={selectedSectionData.sectAV}>
+							bind:value={selectedSectionData.pmntAM}>
 							{#each facultyUsers as facultyUser (facultyUser.userUN)}
 								<option value="{facultyUser.userLN}, {facultyUser.userFN} {facultyUser.userMN}">
 									{facultyUser.userLN}, {facultyUser.userFN}

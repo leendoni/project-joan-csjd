@@ -193,7 +193,7 @@
 	// functions below must exist on all documents
 
 	const modlID = 'A02';
-	const modlNM = 'Application';
+	const modlNM = 'Student Application';
 
 	let modlST = true;
 
@@ -260,7 +260,7 @@
 	}
 
 	onMount(async () => {
-		//
+		checkModuleAccess();
 	});
 </script>
 
@@ -277,263 +277,277 @@
 			<p>Student Application</p>
 		</div>
 	</div>
-	<div class="flex flex-col w-full lg:w-1/2 pt-24 pb-12 px-8 gap-8">
-		<div class="flex flex-col">
-			<h1 class="text-2xl font-semibold">Student Application</h1>
-			<p class="text-sm">Fill out this application if you aspire to be a student of CSJD.</p>
-		</div>
-		<div class="flex flex-col">
-			<h1 class="text-sm font-semibold underline">Academic Information</h1>
-		</div>
-		<div class="form-group flex flex-col lg:flex-row w-full">
-			<div class="form-field w-full">
-				<label
-					for="userLR"
-					class="form-label">Learner's Ref. No.</label>
-				<input
-					id="userLR"
-					class="input max-w-full" />
+	{#if modlST}
+		<div class="flex flex-col w-full lg:w-1/2 pt-24 pb-12 px-8 gap-8">
+			<div class="flex flex-col">
+				<h1 class="text-2xl font-semibold">Student Application</h1>
+				<p class="text-sm">Fill out this application if you aspire to be a student of CSJD.</p>
 			</div>
-			<div class="form-field w-full">
-				<label
-					for="userDP"
-					class="form-label">Current Department</label>
-				<select
-					id="userDP"
-					class="select">
-					<option>Elementary</option>
-					<option>Junior High School</option>
-					<option>Senior High School</option>
-				</select>
+			<div class="flex flex-col">
+				<h1 class="text-sm font-semibold underline">Academic Information</h1>
 			</div>
-		</div>
-		<div class="flex flex-col">
-			<h1 class="text-sm font-semibold underline">Personal Information</h1>
-		</div>
-		<div class="form-group flex lg:flex-row">
-			<div class="form-field w-full">
-				<label
-					for="userLN"
-					class="form-label">Last Name</label>
-				<input
-					id="userLN"
-					class="input max-w-full" />
+			<div class="form-group flex flex-col lg:flex-row w-full">
+				<div class="form-field w-full">
+					<label
+						for="userLR"
+						class="form-label">Learner's Ref. No.</label>
+					<input
+						id="userLR"
+						class="input max-w-full" />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userDP"
+						class="form-label">Current Department</label>
+					<select
+						id="userDP"
+						class="select">
+						<option>Elementary</option>
+						<option>Junior High School</option>
+						<option>Senior High School</option>
+					</select>
+				</div>
 			</div>
-			<div class="form-field w-full">
-				<label
-					for="userFN"
-					class="form-label">First Name</label>
-				<input
-					id="userFN"
-					class="input max-w-full" />
+			<div class="flex flex-col">
+				<h1 class="text-sm font-semibold underline">Personal Information</h1>
 			</div>
-			<div class="form-field w-full">
-				<label
-					for="userMN"
-					class="form-label">Middle Name</label>
-				<input
-					id="userMN"
-					class="input max-w-full" />
+			<div class="form-group flex lg:flex-row">
+				<div class="form-field w-full">
+					<label
+						for="userLN"
+						class="form-label">Last Name</label>
+					<input
+						id="userLN"
+						class="input max-w-full" />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userFN"
+						class="form-label">First Name</label>
+					<input
+						id="userFN"
+						class="input max-w-full" />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userMN"
+						class="form-label">Middle Name</label>
+					<input
+						id="userMN"
+						class="input max-w-full" />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userSF"
+						class="form-label">Suffix</label>
+					<input
+						id="userSF"
+						class="input max-w-full" />
+				</div>
 			</div>
-			<div class="form-field w-full">
-				<label
-					for="userSF"
-					class="form-label">Suffix</label>
-				<input
-					id="userSF"
-					class="input max-w-full" />
+			<div class="form-group flex lg:flex-row">
+				<div class="form-field lg:w-1/2">
+					<label
+						for="userSX"
+						class="form-label">Gender</label>
+					<select
+						id="userSX"
+						class="select">
+						<option>Male</option>
+						<option>Female</option>
+					</select>
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userCN"
+						class="form-label">Contact Number</label>
+					<input
+						id="userCN"
+						class="input max-w-full" />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userEC"
+						class="form-label">Emergency Contact Number</label>
+					<input
+						id="userEC"
+						class="input max-w-full" />
+				</div>
 			</div>
-		</div>
-		<div class="form-group flex lg:flex-row">
-			<div class="form-field lg:w-1/2">
-				<label
-					for="userSX"
-					class="form-label">Gender</label>
-				<select
-					id="userSX"
-					class="select">
-					<option>Male</option>
-					<option>Female</option>
-				</select>
+			<div class="form-group flex lg:flex-row">
+				<div class="form-field w-full">
+					<label
+						for="userAD"
+						class="form-label">Address</label>
+					<input
+						id="userAD"
+						class="input max-w-full" />
+				</div>
 			</div>
-			<div class="form-field w-full">
-				<label
-					for="userCN"
-					class="form-label">Contact Number</label>
-				<input
-					id="userCN"
-					class="input max-w-full" />
-			</div>
-			<div class="form-field w-full">
-				<label
-					for="userEC"
-					class="form-label">Emergency Contact Number</label>
-				<input
-					id="userEC"
-					class="input max-w-full" />
-			</div>
-		</div>
-		<div class="form-group flex lg:flex-row">
-			<div class="form-field w-full">
-				<label
-					for="userAD"
-					class="form-label">Address</label>
-				<input
-					id="userAD"
-					class="input max-w-full" />
-			</div>
-		</div>
-		<div class="form-group flex lg:flex-row">
-			<div class="form-field w-full">
-				<label
-					for="userMA"
-					class="form-label">Mother's Name</label>
-				<input
-					id="userMA"
-					class="input max-w-full" />
-				<div class="flex">
-					<div class="flex h-auto items-center gap-2">
-						<input
-							type="radio"
-							class="radio"
-							name="contactPerson"
-							id="motherRadio"
-							value="Mother" />
-						<p class="text-sm">set as Contact Person</p>
+			<div class="form-group flex lg:flex-row">
+				<div class="form-field w-full">
+					<label
+						for="userMA"
+						class="form-label">Mother's Name</label>
+					<input
+						id="userMA"
+						class="input max-w-full" />
+					<div class="flex">
+						<div class="flex h-auto items-center gap-2">
+							<input
+								type="radio"
+								class="radio"
+								name="contactPerson"
+								id="motherRadio"
+								value="Mother" />
+							<p class="text-sm">set as Contact Person</p>
+						</div>
+					</div>
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userFA"
+						class="form-label">Father's Name</label>
+					<input
+						id="userFA"
+						class="input max-w-full" />
+					<div class="flex">
+						<div class="flex h-auto items-center gap-2">
+							<input
+								type="radio"
+								class="radio"
+								name="contactPerson"
+								id="fatherRadio"
+								value="Father" />
+							<p class="text-sm">set as Contact Person</p>
+						</div>
+					</div>
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userGA"
+						class="form-label">Guardian's Name</label>
+					<input
+						id="userGA"
+						class="input max-w-full" />
+					<div class="flex">
+						<div class="flex h-auto items-center gap-2">
+							<input
+								type="radio"
+								class="radio"
+								name="contactPerson"
+								id="guardianRadio"
+								value="Guardian" />
+							<p class="text-sm">set as Contact Person</p>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="form-field w-full">
-				<label
-					for="userFA"
-					class="form-label">Father's Name</label>
-				<input
-					id="userFA"
-					class="input max-w-full" />
-				<div class="flex">
-					<div class="flex h-auto items-center gap-2">
-						<input
-							type="radio"
-							class="radio"
-							name="contactPerson"
-							id="fatherRadio"
-							value="Father" />
-						<p class="text-sm">set as Contact Person</p>
-					</div>
+			<div class="flex flex-col">
+				<h1 class="text-sm font-semibold underline">Health Information</h1>
+			</div>
+			<div class="form-group flex lg:flex-row">
+				<div class="form-field w-full">
+					<label
+						for="userP1"
+						class="form-label">Health Problem 1</label>
+					<input
+						id="userP1"
+						class="input max-w-full" />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userP2"
+						class="form-label">Health Problem 2</label>
+					<input
+						id="userP2"
+						class="input max-w-full" />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userP3"
+						class="form-label">Health Problem 3</label>
+					<input
+						id="userP3"
+						class="input max-w-full" />
 				</div>
 			</div>
-			<div class="form-field w-full">
+			<div class="form-group flex lg:flex-row">
+				<div class="form-field w-full">
+					<label
+						for="userP4"
+						class="form-label">Health Problem 4</label>
+					<input
+						id="userP4"
+						class="input max-w-full" />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userP5"
+						class="form-label">Health Problem 5</label>
+					<input
+						id="userP5"
+						class="input max-w-full" />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userP6"
+						class="form-label">Health Problem 6</label>
+					<input
+						id="userP6"
+						class="input max-w-full" />
+				</div>
+			</div>
+			<div class="divider my-0" />
+			<div class="flex flex-col lg:flex-row items-center justify-between">
+				<div class="flex flex-row items-center gap-2">
+					<input
+						type="checkbox"
+						class="checkbox"
+						bind:checked={isChecked} />
+					<p>I certify that the above information is correct.</p>
+				</div>
+				<br />
+				<button
+					type="button"
+					class="w-full lg:w-1/3 btn btn-outline-primary"
+					disabled={!isChecked}
+					on:click={handleCreate}>
+					Submit Application</button>
+			</div>
+			<input
+				class="modal-state"
+				id="modal-1"
+				type="checkbox"
+				bind:checked={hasApplied} />
+			<div class="modal">
 				<label
-					for="userGA"
-					class="form-label">Guardian's Name</label>
-				<input
-					id="userGA"
-					class="input max-w-full" />
-				<div class="flex">
-					<div class="flex h-auto items-center gap-2">
-						<input
-							type="radio"
-							class="radio"
-							name="contactPerson"
-							id="guardianRadio"
-							value="Guardian" />
-						<p class="text-sm">set as Contact Person</p>
-					</div>
+					class="modal-overlay"
+					for="modal-1" />
+				<div class="modal-content flex flex-col gap-5">
+					<label
+						for="modal-1"
+						class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+					<h1 class="text-2xl font-semibold">Application Received!</h1>
+					<span
+						>Your student application has been received. Proceed to the school registrar if you wish
+						to pursue with enrolling.</span>
 				</div>
 			</div>
 		</div>
-		<div class="flex flex-col">
-			<h1 class="text-sm font-semibold underline">Health Information</h1>
-		</div>
-		<div class="form-group flex lg:flex-row">
-			<div class="form-field w-full">
-				<label
-					for="userP1"
-					class="form-label">Health Problem 1</label>
-				<input
-					id="userP1"
-					class="input max-w-full" />
-			</div>
-			<div class="form-field w-full">
-				<label
-					for="userP2"
-					class="form-label">Health Problem 2</label>
-				<input
-					id="userP2"
-					class="input max-w-full" />
-			</div>
-			<div class="form-field w-full">
-				<label
-					for="userP3"
-					class="form-label">Health Problem 3</label>
-				<input
-					id="userP3"
-					class="input max-w-full" />
+	{:else if !modlST}
+		<div
+			class="flex flex-col h-screen w-screen justify-center pt-20 pb-8 pl-6 lg:pl-80 pr-6 gap-8 bg-white dark:bg-backgroundPrimary">
+			<div class="flex flex-col">
+				<h1 class="text-6xl font-bold">This module<br /> is disabled.</h1>
+				<br />
+				<p class="text-sm">
+					This module is currently disabled by your system administrator. <br />
+					Check back for availability later.
+				</p>
 			</div>
 		</div>
-		<div class="form-group flex lg:flex-row">
-			<div class="form-field w-full">
-				<label
-					for="userP4"
-					class="form-label">Health Problem 4</label>
-				<input
-					id="userP4"
-					class="input max-w-full" />
-			</div>
-			<div class="form-field w-full">
-				<label
-					for="userP5"
-					class="form-label">Health Problem 5</label>
-				<input
-					id="userP5"
-					class="input max-w-full" />
-			</div>
-			<div class="form-field w-full">
-				<label
-					for="userP6"
-					class="form-label">Health Problem 6</label>
-				<input
-					id="userP6"
-					class="input max-w-full" />
-			</div>
-		</div>
-		<div class="divider my-0" />
-		<div class="flex flex-col lg:flex-row items-center justify-between">
-			<div class="flex flex-row items-center gap-2">
-				<input
-					type="checkbox"
-					class="checkbox"
-					bind:checked={isChecked} />
-				<p>I certify that the above information is correct.</p>
-			</div>
-			<br />
-			<button
-				type="button"
-				class="w-full lg:w-1/3 btn btn-outline-primary"
-				disabled={!isChecked}
-				on:click={handleCreate}>
-				Submit Application</button>
-		</div>
-		<input
-			class="modal-state"
-			id="modal-1"
-			type="checkbox"
-			bind:checked={hasApplied} />
-		<div class="modal">
-			<label
-				class="modal-overlay"
-				for="modal-1" />
-			<div class="modal-content flex flex-col gap-5">
-				<label
-					for="modal-1"
-					class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
-				<h1 class="text-2xl font-semibold">Application Received!</h1>
-				<span
-					>Your student application has been received. Proceed to the school registrar if you wish
-					to pursue with enrolling.</span>
-			</div>
-		</div>
-	</div>
+	{/if}
 	<!-- <div class="flex flex-col w-full lg:w-1/2 pt-24 pb-12 px-8 gap-8">
 		<div class="flex flex-col">
 			<h1 class="text-2xl font-semibold">Student Application</h1>

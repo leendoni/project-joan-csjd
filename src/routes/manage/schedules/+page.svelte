@@ -24,60 +24,37 @@
 	const app = initializeApp(firebaseConfig);
 	const db = getFirestore(app);
 
-	async function handleCreate() {
-		const sectID = makeID();
-		const sectST = document.getElementById('sectST').value;
-		const sectDP = document.getElementById('sectDP').value;
-		const sectYR = document.getElementById('sectYR').value;
-		const sectNM = document.getElementById('sectNM').value;
-		const sectAV = document.getElementById('sectAV').value;
-		const sectSC = '';
-
-		const sectionData = {
-			sectID,
-			sectST,
-			sectDP,
-			sectYR,
-			sectNM,
-			sectAV,
-			sectSC
-		};
-
-		try {
-			const docRef = doc(db, 'csjd-main', 'data', 'sections', sectNM);
-			await setDoc(docRef, sectionData);
-
-			handleAction('Successful', `Added section ${sectNM}`, `${loclLN}, ${loclFN} ${loclMN}`);
-
-			document.getElementById('sectST').value = '';
-			document.getElementById('sectDP').value = '';
-			document.getElementById('sectYR').value = '';
-			document.getElementById('sectNM').value = '';
-			document.getElementById('sectAV').value = '';
-
-			isCreating = false;
-			isSelecting = false;
-			isEditing = false;
-		} catch (error) {
-			console.error('Error creating section: ', error);
-		}
-	}
-
 	async function handleUpdate() {
-		const sectST = document.getElementById('sectST').value;
-		const sectDP = document.getElementById('sectDP').value;
-		const sectYR = document.getElementById('sectYR').value;
 		const sectNM = document.getElementById('sectNM').value;
-		const sectAV = document.getElementById('sectAV').value;
-		const sectSC = '';
+		const sectSC = document.getElementById('sectSC').value;
+
+		subj1 = document.getElementById('subj1').value;
+		subj2 = document.getElementById('subj2').value;
+		subj3 = document.getElementById('subj3').value;
+		subj4 = document.getElementById('subj4').value;
+		subj5 = document.getElementById('subj5').value;
+		subj6 = document.getElementById('subj6').value;
+		subj7 = document.getElementById('subj7').value;
+		subj8 = document.getElementById('subj8').value;
+		subj9 = document.getElementById('subj9').value;
+		subj10 = document.getElementById('subj10').value;
+		subj11 = document.getElementById('subj11').value;
+		subj12 = document.getElementById('subj12').value;
 
 		const updatedSectionData = {
-			sectST,
-			sectDP,
-			sectYR,
-			sectNM,
-			sectAV,
-			sectSC
+			sectSC,
+			subj1,
+			subj2,
+			subj3,
+			subj4,
+			subj5,
+			subj6,
+			subj7,
+			subj8,
+			subj9,
+			subj10,
+			subj11,
+			subj12
 		};
 
 		try {
@@ -757,7 +734,7 @@
 		hasSubjects = true;
 	}
 
-	let selectedSchedule = 'schedG01';
+	let selectedSchedule = '';
 
 	let schedules = {
 		schedG01: [
@@ -958,11 +935,6 @@
 			{ time: '04:30 - 05:30', data: ['D', 'C', 'B', 'A', 'E'] }
 		]
 	};
-
-	function tester() {
-		const subj1 = document.getElementById('subj1').value;
-		console.log(subj1);
-	}
 
 	// functions below must exist on all documents
 
@@ -1635,6 +1607,7 @@
 					<thead>
 						<tr>
 							<th>Status</th>
+							<th>Section Year</th>
 							<th>Section Name</th>
 							<th>Department</th>
 						</tr>
@@ -1653,6 +1626,7 @@
 								}}
 								on:click={() => handleRowClick(section)}>
 								<td>{section.sectST}</td>
+								<td>{section.sectYR}</td>
 								<td>{section.sectNM}</td>
 								<td>{section.sectDP}</td>
 							</tr>
@@ -1767,26 +1741,26 @@
 			</div>
 			<div class="flex flex-col gap-2">
 				<label
-					for="scheduleSelect"
-					class="form-label">Select Schedule Algorithm:</label>
+					for="sectSC"
+					class="form-label">Schedule Algorithm</label>
 				<select
-					id="scheduleSelect"
+					id="sectSC"
 					class="select"
 					bind:value={selectedSchedule}>
 					{#if selectedSectionData.sectDP === 'Elementary'}
-						<option value="schedG01">Schedule A</option>
-						<option value="schedG02">Schedule B</option>
-						<option value="schedG03">Schedule C</option>
-						<option value="schedG04">Schedule D</option>
-						<option value="schedG05">Schedule E</option>
-						<option value="schedG06">Schedule F</option>
+						<option value="schedG01">A</option>
+						<option value="schedG02">B</option>
+						<option value="schedG03">C</option>
+						<option value="schedG04">D</option>
+						<option value="schedG05">E</option>
+						<option value="schedG06">F</option>
 					{:else if selectedSectionData.sectDP === 'Junior High School'}
-						<option value="schedG07">Schedule G</option>
-						<option value="schedG08">Schedule H</option>
-						<option value="schedG09">Schedule I</option>
-						<option value="schedG10">Schedule J</option>
-						<option value="schedG11">Schedule K</option>
-						<option value="schedG12">Schedule L</option>
+						<option value="schedG07">G</option>
+						<option value="schedG08">H</option>
+						<option value="schedG09">I</option>
+						<option value="schedG10">J</option>
+						<option value="schedG11">K</option>
+						<option value="schedG12">L</option>
 					{/if}
 				</select>
 				<button
@@ -1816,6 +1790,9 @@
 						</tbody>
 					</table>
 				</div>
+				<button
+					class="btn btn-outline-primary"
+					on:click={handleUpdate}>Save Schedule</button>
 			{/if}
 		</div>
 	{:else if !modlST}

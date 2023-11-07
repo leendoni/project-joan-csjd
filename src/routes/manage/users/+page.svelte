@@ -596,8 +596,8 @@
 			worksheet.getCell('I12').value = selectedUserData.userUN;
 			worksheet.getCell('I13').value = selectedUserData.userUN.replace('@csjd.joan.cloud', '');
 
-			worksheet.getCell('I16').value = selectedUserData.userFN;
-			worksheet.getCell('I17').value = selectedUserData.userLN;
+			worksheet.getCell('I16').value = selectedUserData.userLN;
+			worksheet.getCell('I17').value = selectedUserData.userFN;
 			worksheet.getCell('I18').value = selectedUserData.userMN;
 			worksheet.getCell('I19').value = selectedUserData.userSF;
 			worksheet.getCell('I20').value = selectedUserData.userSX;
@@ -1903,16 +1903,11 @@
 							<label
 								for="userDP"
 								class="form-label">Current Department</label>
-							<select
+							<input
 								id="userDP"
-								class="select"
-								disabled
-								bind:value={selectedUserData.userDP}>
-								<option>Pre-Elementary</option>
-								<option>Elementary</option>
-								<option>Junior High School</option>
-								<option>Senior High School</option>
-							</select>
+								class="input max-w-full"
+								readonly
+								bind:value={selectedUserData.userDP} />
 						</div>
 						<div class="form-field w-full">
 							<label

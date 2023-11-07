@@ -944,6 +944,7 @@
 					<thead>
 						<tr>
 							<th>Status</th>
+							<th>Section Year</th>
 							<th>Section Name</th>
 							<th>Department</th>
 						</tr>
@@ -962,6 +963,7 @@
 								}}
 								on:click={() => handleRowClick(section)}>
 								<td>{section.sectST}</td>
+								<td>{section.sectYR}</td>
 								<td>{section.sectNM}</td>
 								<td>{section.sectDP}</td>
 							</tr>

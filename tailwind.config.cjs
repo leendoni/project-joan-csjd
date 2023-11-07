@@ -6,7 +6,7 @@ const config = {
 		extend: {
 			fontFamily: {
 				sans: ['Inter', 'ui-sans-serif', 'system-ui'],
-			  },
+			},
 		}
 	},
 

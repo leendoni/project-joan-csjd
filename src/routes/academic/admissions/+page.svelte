@@ -1207,16 +1207,6 @@
 								on:click={() => filterUsers('Registered')}>
 								Registered
 							</p>
-							<p
-								class="dropdown-item text-sm"
-								on:click={() => filterUsers('Enrolled')}>
-								Enrolled
-							</p>
-							<p
-								class="dropdown-item text-sm"
-								on:click={() => filterUsers('Archived')}>
-								Archived
-							</p>
 							<div class="divider my-0" />
 							<p
 								class="dropdown-item text-sm"
@@ -1322,11 +1312,11 @@
 						on:click={() => (isCreating = true)}>
 						Edit Selected
 					</button>
-					<button
+					<!-- <button
 						class="btn btn-outline-error btn-block"
 						on:click={handleExport}>
 						Export Selected
-					</button>
+					</button> -->
 					<button
 						class="btn btn-outline-primary btn-block"
 						on:click={() => ((isCreating = false), (isEditing = false), (isSelecting = false))}
@@ -1364,8 +1354,6 @@
 							bind:value={selectedUserData.userST}>
 							<option>Pre-Registered</option>
 							<option>Registered</option>
-							<option>Enrolled</option>
-							<option>Archived</option>
 						</select>
 					</div>
 				</div>
@@ -1414,23 +1402,17 @@
 							<input
 								id="userLR"
 								class="input max-w-full"
-								readonly
 								bind:value={selectedUserData.userLR} />
 						</div>
 						<div class="form-field w-full">
 							<label
 								for="userDP"
 								class="form-label">Current Department</label>
-							<select
+							<input
 								id="userDP"
-								class="select"
-								disabled
-								bind:value={selectedUserData.userDP}>
-								<option>Pre-Elementary</option>
-								<option>Elementary</option>
-								<option>Junior High School</option>
-								<option>Senior High School</option>
-							</select>
+								class="input max-w-full"
+								readonly
+								bind:value={selectedUserData.userDP} />
 						</div>
 						<div class="form-field w-full">
 							<label
@@ -1624,67 +1606,6 @@
 						</div>
 					</div>
 				{/if}
-				<div class="flex flex-col">
-					<h1 class="text-sm font-semibold underline">Health Information</h1>
-				</div>
-				<div class="form-group flex lg:flex-row">
-					<div class="form-field w-full">
-						<label
-							for="userP1"
-							class="form-label">Health Problem 1</label>
-						<input
-							id="userP1"
-							class="input max-w-full"
-							bind:value={selectedUserData.userP1} />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userP2"
-							class="form-label">Health Problem 2</label>
-						<input
-							id="userP2"
-							class="input max-w-full"
-							bind:value={selectedUserData.userP2} />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userP3"
-							class="form-label">Health Problem 3</label>
-						<input
-							id="userP3"
-							class="input max-w-full"
-							bind:value={selectedUserData.userP3} />
-					</div>
-				</div>
-				<div class="form-group flex lg:flex-row">
-					<div class="form-field w-full">
-						<label
-							for="userP4"
-							class="form-label">Health Problem 4</label>
-						<input
-							id="userP4"
-							class="input max-w-full"
-							bind:value={selectedUserData.userP4} />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userP5"
-							class="form-label">Health Problem 5</label>
-						<input
-							id="userP5"
-							class="input max-w-full"
-							bind:value={selectedUserData.userP5} />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userP6"
-							class="form-label">Health Problem 6</label>
-						<input
-							id="userP6"
-							class="input max-w-full"
-							bind:value={selectedUserData.userP6} />
-					</div>
-				</div>
 				{#if selectedUserData.userCL == 'Student'}
 					<div class="flex flex-col">
 						<h1 class="text-sm font-semibold underline">Requirements</h1>
@@ -1768,16 +1689,11 @@
 						<label
 							for="userST"
 							class="form-label">Account Status</label>
-						<select
+						<input
 							id="userST"
-							class="select"
-							disabled
-							bind:value={selectedUserData.userST}>
-							<option>Pre-Registered</option>
-							<option>Registered</option>
-							<option>Enrolled</option>
-							<option>Archived</option>
-						</select>
+							class="input max-w-full"
+							readonly
+							bind:value={selectedUserData.userST} />
 					</div>
 				</div>
 				<div class="form-group flex flex-col lg:flex-row w-full">
@@ -1785,13 +1701,11 @@
 						<label
 							for="userCL"
 							class="form-label">Account Class</label>
-						<select
+						<input
 							id="userCL"
-							class="select"
-							disabled
-							bind:value={selectedUserData.userCL}>
-							<option>Student</option>
-						</select>
+							class="input max-w-full"
+							readonly
+							bind:value={selectedUserData.userCL} />
 					</div>
 				</div>
 				<div class="form-group flex flex-col lg:flex-row w-full">
@@ -1833,16 +1747,11 @@
 							<label
 								for="userDP"
 								class="form-label">Current Department</label>
-							<select
+							<input
 								id="userDP"
-								class="select"
-								disabled
-								bind:value={selectedUserData.userDP}>
-								<option>Pre-Elementary</option>
-								<option>Elementary</option>
-								<option>Junior High School</option>
-								<option>Senior High School</option>
-							</select>
+								class="input max-w-full"
+								readonly
+								bind:value={selectedUserData.userDP} />
 						</div>
 						<div class="form-field w-full">
 							<label
@@ -1916,14 +1825,11 @@
 						<label
 							for="userSX"
 							class="form-label">Gender</label>
-						<select
+						<input
 							id="userSX"
-							class="select"
-							disabled
-							bind:value={selectedUserData.userSX}>
-							<option>Male</option>
-							<option>Female</option>
-						</select>
+							class="input max-w-full"
+							readonly
+							bind:value={selectedUserData.userSX} />
 					</div>
 					<div class="form-field w-full">
 						<label
@@ -2051,73 +1957,6 @@
 						</div>
 					</div>
 				{/if}
-				<div class="flex flex-col">
-					<h1 class="text-sm font-semibold underline">Health Information</h1>
-				</div>
-				<div class="form-group flex lg:flex-row">
-					<div class="form-field w-full">
-						<label
-							for="userP1"
-							class="form-label">Health Problem 1</label>
-						<input
-							id="userP1"
-							class="input max-w-full"
-							readonly
-							bind:value={selectedUserData.userP1} />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userP2"
-							class="form-label">Health Problem 2</label>
-						<input
-							id="userP2"
-							class="input max-w-full"
-							readonly
-							bind:value={selectedUserData.userP2} />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userP3"
-							class="form-label">Health Problem 3</label>
-						<input
-							id="userP3"
-							class="input max-w-full"
-							readonly
-							bind:value={selectedUserData.userP3} />
-					</div>
-				</div>
-				<div class="form-group flex lg:flex-row">
-					<div class="form-field w-full">
-						<label
-							for="userP4"
-							class="form-label">Health Problem 4</label>
-						<input
-							id="userP4"
-							class="input max-w-full"
-							readonly
-							bind:value={selectedUserData.userP4} />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userP5"
-							class="form-label">Health Problem 5</label>
-						<input
-							id="userP5"
-							class="input max-w-full"
-							readonly
-							bind:value={selectedUserData.userP5} />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userP6"
-							class="form-label">Health Problem 6</label>
-						<input
-							id="userP6"
-							class="input max-w-full"
-							readonly
-							bind:value={selectedUserData.userP6} />
-					</div>
-				</div>
 				{#if selectedUserData.userCL == 'Student'}
 					<div class="flex flex-col">
 						<h1 class="text-sm font-semibold underline">Requirements</h1>
@@ -2454,61 +2293,6 @@
 						</div>
 					</div>
 				{/if}
-				<div class="flex flex-col">
-					<h1 class="text-sm font-semibold underline">Health Information</h1>
-				</div>
-				<div class="form-group flex lg:flex-row">
-					<div class="form-field w-full">
-						<label
-							for="userP1"
-							class="form-label">Health Problem 1</label>
-						<input
-							id="userP1"
-							class="input max-w-full" />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userP2"
-							class="form-label">Health Problem 2</label>
-						<input
-							id="userP2"
-							class="input max-w-full" />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userP3"
-							class="form-label">Health Problem 3</label>
-						<input
-							id="userP3"
-							class="input max-w-full" />
-					</div>
-				</div>
-				<div class="form-group flex lg:flex-row">
-					<div class="form-field w-full">
-						<label
-							for="userP4"
-							class="form-label">Health Problem 4</label>
-						<input
-							id="userP4"
-							class="input max-w-full" />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userP5"
-							class="form-label">Health Problem 5</label>
-						<input
-							id="userP5"
-							class="input max-w-full" />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userP6"
-							class="form-label">Health Problem 6</label>
-						<input
-							id="userP6"
-							class="input max-w-full" />
-					</div>
-				</div>
 				{#if selectedUserData.userCL == 'Student'}
 					<div class="flex flex-col">
 						<h1 class="text-sm font-semibold underline">Requirements</h1>
