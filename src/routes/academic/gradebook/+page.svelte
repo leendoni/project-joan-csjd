@@ -8,8 +8,10 @@
 		getDoc,
 		getDocs,
 		getFirestore,
+		query,
 		setDoc,
-		updateDoc
+		updateDoc,
+		where
 	} from 'firebase/firestore';
 
 	const firebaseConfig = {
@@ -93,22 +95,56 @@
 	let subjects = [];
 
 	async function fetchSubjects() {
+		// try {
+		// 	const db = getFirestore(app);
+		// 	const subjectsCollection = collection(db, 'csjd-main', 'data', 'subjects');
+		// 	const querySnapshot = await getDocs(subjectsCollection);
+
+		// 	subjects = querySnapshot.docs.map((doc) => doc.data());
+
+		// 	switch (selectedFilter) {
+		// 		case 'Active':
+		// 			limitedSubjects = subjects
+		// 				.filter((subject) => subject.subjST.toLowerCase() === 'active')
+		// 				.slice(currentPage * 6, (currentPage + 1) * 6);
+		// 			break;
+		// 		case 'Archived':
+		// 			limitedSubjects = subjects
+		// 				.filter((subject) => subject.subjST.toLowerCase() === 'archived')
+		// 				.slice(currentPage * 6, (currentPage + 1) * 6);
+		// 			break;
+		// 		case 'Clear Filter':
+		// 			limitedSubjects = subjects.slice(currentPage * 6, (currentPage + 1) * 6);
+		// 			break;
+		// 		default:
+		// 			limitedSubjects = subjects.slice(currentPage * 6, (currentPage + 1) * 6);
+		// 	}
 		try {
 			const db = getFirestore(app);
 			const subjectsCollection = collection(db, 'csjd-main', 'data', 'subjects');
-			const querySnapshot = await getDocs(subjectsCollection);
+			const querySnapshot = await getDocs(
+				query(subjectsCollection, where('subjTC', '==', `${loclLN}, ${loclFN} ${loclMN}`))
+			);
 
 			subjects = querySnapshot.docs.map((doc) => doc.data());
 
 			switch (selectedFilter) {
 				case 'Active':
 					limitedSubjects = subjects
-						.filter((subject) => subject.subjST.toLowerCase() === 'active')
+						.filter(
+							(subject) =>
+								subject.subjST.toLowerCase() === 'active' &&
+								subject.subjTC === `${loclLN}, ${loclFN} ${loclMN}`
+						)
 						.slice(currentPage * 6, (currentPage + 1) * 6);
 					break;
 				case 'Archived':
 					limitedSubjects = subjects
-						.filter((subject) => subject.subjST.toLowerCase() === 'archived')
+						.filter(
+							(subject) =>
+								subject.subjST.toLowerCase() === 'archived' &&
+								subject.subjTC === `${loclLN}, ${loclFN} ${loclMN}`
+						)
 						.slice(currentPage * 6, (currentPage + 1) * 6);
 					break;
 				case 'Clear Filter':
@@ -123,28 +159,46 @@
 	}
 
 	let users = [];
+	let limitedUsers = [];
 	let facultyUsers;
 
 	async function fetchUsers() {
 		try {
+			const db = getFirestore(app);
 			const usersCollection = collection(db, 'csjd-main', 'data', 'users');
-			const querySnapshot = await getDocs(usersCollection);
+			const querySnapshot = await getDocs(
+				query(usersCollection, where('userST', 'in', ['Registered', 'Enrolled']))
+			);
 
 			users = querySnapshot.docs.map((doc) => doc.data());
+			users = users.filter((user) => user.userCL === 'Student');
 
-			facultyUsers = users.filter((user) => user.userCL === 'Faculty');
-
-			const adviserSelect = document.getElementById('sectAV');
-
-			if (adviserSelect) {
-				adviserSelect.innerHTML = '';
-
-				facultyUsers.forEach((facultyUser) => {
-					const option = document.createElement('option');
-					option.value = `${facultyUser.userLN}, ${facultyUser.userFN} ${facultyUser.userMN}`;
-					option.textContent = `${facultyUser.userLN}, ${facultyUser.userFN} ${facultyUser.userMN}`;
-					adviserSelect.appendChild(option);
-				});
+			switch (selectedFilter) {
+				case 'Pre-Registered':
+					limitedUsers = users
+						.filter((user) => user.userST.toLowerCase() === 'pre-registered')
+						.slice(currentPage * 6, (currentPage + 1) * 6);
+					break;
+				case 'Registered':
+					limitedUsers = users
+						.filter((user) => user.userST.toLowerCase() === 'registered')
+						.slice(currentPage * 6, (currentPage + 1) * 6);
+					break;
+				case 'Enrolled':
+					limitedUsers = users
+						.filter((user) => user.userST.toLowerCase() === 'enrolled')
+						.slice(currentPage * 6, (currentPage + 1) * 6);
+					break;
+				case 'Archived':
+					limitedUsers = users
+						.filter((user) => user.userST.toLowerCase() === 'archived')
+						.slice(currentPage * 6, (currentPage + 1) * 6);
+					break;
+				case 'Clear Filter':
+					limitedUsers = users.slice(currentPage * 6, (currentPage + 1) * 6);
+					break;
+				default:
+					limitedUsers = users.slice(currentPage * 6, (currentPage + 1) * 6);
 			}
 		} catch (error) {
 			console.error('Error fetching user data:', error);
@@ -214,6 +268,12 @@
 
 	function handleRowClick(sectionData) {
 		selectedSubjectData = sectionData;
+	}
+
+	let selectedUserData = [];
+
+	function handleRowClickUser(userData) {
+		selectedUserData = userData;
 	}
 
 	let isCreating = false;
@@ -329,6 +389,47 @@
 		setDoc(logRef, logData)
 			.then(() => {
 				console.log('Action logged successfully.');
+			})
+			.catch((error) => {
+				console.error('Error logging action:', error);
+			});
+	}
+
+	let gradQ1, gradQ2, gradQ3, gradQ4, userLN, userFN, userMN;
+
+	function handleTransact() {
+		let gradID = makeID();
+
+		gradQ1 = document.getElementById('gradQ1').value;
+		gradQ2 = document.getElementById('gradQ2').value;
+		gradQ3 = document.getElementById('gradQ3').value;
+		gradQ4 = document.getElementById('gradQ4').value;
+
+		userLN = document.getElementById('userLN').value;
+		userFN = document.getElementById('userFN').value;
+		userMN = document.getElementById('userMN').value;
+
+		let gradOF = `${userLN}, ${userFN} ${userMN}`;
+
+		const logRef = doc(db, 'csjd-main', 'data', 'grades', gradID);
+
+		const logData = {
+			gradOF,
+			gradON: selectedSubjectData.subjNM,
+			gradQ1,
+			gradQ2,
+			gradQ3,
+			gradQ4
+		};
+
+		setDoc(logRef, logData)
+			.then(() => {
+				console.log('Action logged successfully.');
+				handleAction(
+					'Successful',
+					`Graded ${selectedUserData.userUN} for ${selectedSubjectData.subjNM}`,
+					`${loclLN}, ${loclFN} ${loclMN}`
+				);
 			})
 			.catch((error) => {
 				console.error('Error logging action:', error);
@@ -567,7 +668,6 @@
 							</li>
 							<li>
 								<input
-									checked
 									type="checkbox"
 									id="menu-2"
 									class="menu-toggle"
@@ -598,7 +698,7 @@
 											class="menu-item ml-6">User Management</a>
 										<a
 											href="/manage/subjects"
-											class="menu-item menu-active ml-6">Subject Management</a>
+											class="menu-item ml-6">Subject Management</a>
 										<a
 											href="/manage/sections"
 											class="menu-item ml-6">Section Management</a>
@@ -614,6 +714,7 @@
 							</li>
 							<li>
 								<input
+									checked
 									type="checkbox"
 									id="menu-3"
 									class="menu-toggle"
@@ -651,7 +752,7 @@
 											class="menu-item ml-6">Sections</a>
 										<a
 											href="/academic/gradebook"
-											class="menu-item ml-6">Gradebook</a>
+											class="menu-item menu-active ml-6">Gradebook</a>
 										<div class="divider my-0" />
 										<a
 											href="/guidance"
@@ -692,45 +793,7 @@
 									</div>
 								</div>
 							</li>
-							<li>
-								<input
-									type="checkbox"
-									id="menu-5"
-									class="menu-toggle"
-									on:change={toggleMenu} />
-								<label
-									class="menu-item justify-between"
-									for="menu-5">
-									<div class="flex gap-2">
-										<span>Archiving Modules</span>
-									</div>
-									<span class="menu-icon">
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											class="h-5 w-5"
-											viewBox="0 0 20 20"
-											fill="currentColor">
-											<path
-												fill-rule="evenodd"
-												d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-												clip-rule="evenodd" />
-										</svg>
-									</span>
-								</label>
-								<div class="menu-item-collapse">
-									<div class="min-h-0">
-										<a
-											href="/archives/student"
-											class="menu-item ml-6">Student Archives</a>
-										<a
-											href="/archives/employee"
-											class="menu-item ml-6">Employee Archives</a>
-										<a
-											href="/archives/system"
-											class="menu-item ml-6">System Archives</a>
-									</div>
-								</div>
-							</li>
+
 							<li>
 								<input
 									type="checkbox"
@@ -951,56 +1014,89 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="flex flex-row w-full gap-2">
-				{#if !isCreating && !isSelecting && !isEditing}
+			<div class="divider my-0" />
+			<div class="flex flex-col">
+				<h1 class="text-xl font-semibold">Student Masterlist</h1>
+				<p class="text-xs">Below is the list of all student accounts registered on the system.</p>
+			</div>
+			<div class="flex flex-row justify-between">
+				<div class="flex flex-row gap-2">
+					<input
+						class="input"
+						placeholder="Search..."
+						on:input={handleSearch} />
+				</div>
+				<div class="flex flex-row gap-2">
 					<button
-						class="btn btn-outline-primary btn-block"
-						on:click={() => (isCreating = true)}>
-						Create New Subject
-					</button>
-				{:else if isCreating}
-					<button
-						class="btn btn-outline-success btn-block"
-						on:click={() => handleCreate()}>
-						Save Subject
-					</button>
-					<button
-						class="btn btn-outline-primary btn-block"
-						on:click={() => ((isCreating = false), (isEditing = false), (isSelecting = false))}>
-						Cancel
-					</button>
-				{/if}
-				{#if isSelecting}
-					<button
-						class="btn btn-outline-secondary btn-block"
-						on:click={() => (isEditing = true)}
-						on:click={() => (isSelecting = false)}
-						on:click={() => (isCreating = true)}>
-						Edit Selected Subject
-					</button>
-					<!-- <button
-						class="btn btn-outline-error btn-block"
-						on:click={handleExport}>
-						Export Selected Subject
-					</button> -->
-					<button
-						class="btn btn-outline-primary btn-block"
-						on:click={() => ((isCreating = false), (isEditing = false), (isSelecting = false))}>
-						Cancel
-					</button>
-				{/if}
-				{#if isEditing}
-					<button
-						class="btn btn-outline-success btn-block"
-						on:click={() => handleUpdate()}>
-						Save Changes
-					</button>
-					<button
-						class="btn btn-outline-primary btn-block"
-						on:click={() => ((isCreating = false), (isEditing = false), (isSelecting = false))}>
-						Cancel
-					</button>
-				{/if}
+						class="btn btn-outline-success"
+						on:click={() => fetchUsers()}>Refresh</button>
+					<div class="pagination">
+						<button
+							class="btn"
+							on:click={() => changePage(currentPage - 1)}
+							disabled={currentPage === 0}>
+							<svg
+								width="18"
+								height="18"
+								viewBox="0 0 20 20"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<path
+									fill-rule="evenodd"
+									clip-rule="evenodd"
+									d="M12.2574 5.59165C11.9324 5.26665 11.4074 5.26665 11.0824 5.59165L7.25742 9.41665C6.93242 9.74165 6.93242 10.2667 7.25742 10.5917L11.0824 14.4167C11.4074 14.7417 11.9324 14.7417 12.2574 14.4167C12.5824 14.0917 12.5824 13.5667 12.2574 13.2417L9.02409 9.99998L12.2574 6.76665C12.5824 6.44165 12.5741 5.90832 12.2574 5.59165Z"
+									fill="#969696" />
+							</svg>
+						</button>
+						<button
+							class="btn btn-outline-primary"
+							on:click={() => changePage(currentPage + 1)}
+							disabled={currentPage === Math.floor(users.length / 6)}>
+							<svg
+								width="18"
+								height="18"
+								viewBox="0 0 20 20"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<path
+									fill-rule="evenodd"
+									clip-rule="evenodd"
+									d="M7.74375 5.2448C7.41875 5.5698 7.41875 6.0948 7.74375 6.4198L10.9771 9.65314L7.74375 12.8865C7.41875 13.2115 7.41875 13.7365 7.74375 14.0615C8.06875 14.3865 8.59375 14.3865 8.91875 14.0615L12.7437 10.2365C13.0687 9.91147 13.0687 9.38647 12.7437 9.06147L8.91875 5.23647C8.60208 4.9198 8.06875 4.9198 7.74375 5.2448Z"
+									fill="#969696" />
+							</svg>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="flex w-full">
+				<table class="table table-hover table-compact">
+					<thead>
+						<tr>
+							<th>Status</th>
+							<th>Full Name</th>
+							<th>Class</th>
+						</tr>
+					</thead>
+					<tbody>
+						{#each limitedUsers as user (user.userID)}
+							<tr
+								on:click={() => {
+									if ((isEditing = false)) {
+										isSelecting = true;
+									} else if ((isCreating = false)) {
+										isSelecting = true;
+									} else {
+										isSelecting = true;
+									}
+								}}
+								on:click={() => handleRowClickUser(user)}>
+								<td>{user.userST}</td>
+								<td>{user.userLN}, {user.userFN} {user.userMN}</td>
+								<td>{user.userCL}</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
 			</div>
 			<div class="divider my-0" />
 			<div class="flex flex-col">
@@ -1187,6 +1283,144 @@
 					</div>
 				</div>
 			{/if}
+			{#if selectedUserData.userCL == 'Student'}
+				<div class="flex flex-col">
+					<h1 class="text-sm font-semibold underline">Academic Information</h1>
+				</div>
+				<div class="form-group flex flex-col lg:flex-row w-full">
+					<div class="form-field w-full">
+						<label
+							for="userLR"
+							class="form-label">Learner's Ref. No.</label>
+						<input
+							id="userLR"
+							class="input max-w-full"
+							readonly
+							bind:value={selectedUserData.userLR} />
+					</div>
+					<div class="form-field w-full">
+						<label
+							for="userDP"
+							class="form-label">Current Department</label>
+						<input
+							id="userDP"
+							class="input max-w-full"
+							readonly
+							bind:value={selectedUserData.userDP} />
+					</div>
+					<div class="form-field w-full">
+						<label
+							for="userYR"
+							class="form-label">Current Year</label>
+						<input
+							id="userYR"
+							class="input max-w-full"
+							readonly
+							bind:value={selectedUserData.userYR} />
+					</div>
+					<div class="form-field w-full">
+						<label
+							for="userSC"
+							class="form-label">Current Section</label>
+						<input
+							id="userSC"
+							class="input max-w-full"
+							readonly
+							bind:value={selectedUserData.userSC} />
+					</div>
+				</div>
+			{/if}
+			<div class="flex flex-col">
+				<h1 class="text-sm font-semibold underline">Personal Information</h1>
+			</div>
+			<div class="form-group flex lg:flex-row">
+				<div class="form-field w-full">
+					<label
+						for="userLN"
+						class="form-label">Last Name</label>
+					<input
+						id="userLN"
+						class="input max-w-full"
+						readonly
+						bind:value={selectedUserData.userLN} />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userFN"
+						class="form-label">First Name</label>
+					<input
+						id="userFN"
+						class="input max-w-full"
+						readonly
+						bind:value={selectedUserData.userFN} />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userMN"
+						class="form-label">Middle Name</label>
+					<input
+						id="userMN"
+						class="input max-w-full"
+						readonly
+						bind:value={selectedUserData.userMN} />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="userSF"
+						class="form-label">Suffix</label>
+					<input
+						id="userSF"
+						class="input max-w-full"
+						readonly
+						bind:value={selectedUserData.userSF} />
+				</div>
+			</div>
+			<div class="divider my-0" />
+			<div class="flex flex-col">
+				<h1 class="text-xl font-semibold">Grade Information</h1>
+				<p class="text-xs">Provide the details for this transaction.</p>
+			</div>
+			<div class="form-group flex lg:flex-row">
+				<div class="form-field w-full">
+					<label
+						for="gradQ1"
+						class="form-label">First Quarter</label>
+					<input
+						id="gradQ1"
+						class="input max-w-full"
+						bind:value={gradQ1} />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="gradQ2"
+						class="form-label">Second Quarter</label>
+					<input
+						id="gradQ2"
+						class="input max-w-full"
+						bind:value={gradQ2} />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="gradQ3"
+						class="form-label">Third Quarter</label>
+					<input
+						id="gradQ3"
+						class="input max-w-full"
+						bind:value={gradQ3} />
+				</div>
+				<div class="form-field w-full">
+					<label
+						for="gradQ4"
+						class="form-label">Fourth Quarter</label>
+					<input
+						id="gradQ4"
+						class="input max-w-full"
+						bind:value={gradQ4} />
+				</div>
+			</div>
+			<button
+				class="btn btn-outline-success"
+				on:click={() => handleTransact()}>Save Record</button>
 		</div>
 	{:else if !modlST}
 		<div
