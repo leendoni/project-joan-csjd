@@ -1348,9 +1348,7 @@
 										<a
 											href="/academic/enrollments"
 											class="menu-item ml-6">Enrollments</a>
-										<a
-											href="/academic/curriculum"
-											class="menu-item ml-6">Curriculum</a>
+
 										<a
 											href="/academic/sections"
 											class="menu-item menu-active ml-6">Sections</a>
@@ -1361,9 +1359,6 @@
 										<a
 											href="/guidance"
 											class="menu-item ml-6">Violations & Sanctions</a>
-										<a
-											href="/guidance/defaults"
-											class="menu-item ml-6">Guidance Defaults</a>
 									</div>
 								</div>
 							</li>
@@ -1397,9 +1392,6 @@
 										<a
 											href="/transact"
 											class="menu-item ml-6">Transactions</a>
-										<a
-											href="/transact/defaults"
-											class="menu-item ml-6">Transaction Defaults</a>
 									</div>
 								</div>
 							</li>

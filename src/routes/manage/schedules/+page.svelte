@@ -1318,9 +1318,7 @@
 										<a
 											href="/academic/enrollments"
 											class="menu-item ml-6">Enrollments</a>
-										<a
-											href="/academic/curriculum"
-											class="menu-item ml-6">Curriculum</a>
+
 										<a
 											href="/academic/sections"
 											class="menu-item ml-6">Sections</a>
@@ -1331,9 +1329,6 @@
 										<a
 											href="/guidance"
 											class="menu-item ml-6">Violations & Sanctions</a>
-										<a
-											href="/guidance/defaults"
-											class="menu-item ml-6">Guidance Defaults</a>
 									</div>
 								</div>
 							</li>
@@ -1367,9 +1362,6 @@
 										<a
 											href="/transact"
 											class="menu-item ml-6">Transactions</a>
-										<a
-											href="/transact/defaults"
-											class="menu-item ml-6">Transaction Defaults</a>
 									</div>
 								</div>
 							</li>
@@ -1748,19 +1740,19 @@
 					class="select"
 					bind:value={selectedSchedule}>
 					{#if selectedSectionData.sectDP === 'Elementary'}
-						<option value="schedG01">A</option>
-						<option value="schedG02">B</option>
-						<option value="schedG03">C</option>
-						<option value="schedG04">D</option>
-						<option value="schedG05">E</option>
-						<option value="schedG06">F</option>
+						<option value="schedG01">Type 1</option>
+						<option value="schedG02">Type 2</option>
+						<option value="schedG03">Type 3</option>
+						<option value="schedG04">Type 4</option>
+						<option value="schedG05">Type 5</option>
+						<option value="schedG06">Type 6</option>
 					{:else if selectedSectionData.sectDP === 'Junior High School'}
-						<option value="schedG07">G</option>
-						<option value="schedG08">H</option>
-						<option value="schedG09">I</option>
-						<option value="schedG10">J</option>
-						<option value="schedG11">K</option>
-						<option value="schedG12">L</option>
+						<option value="schedG07">Type 7</option>
+						<option value="schedG08">Type 8</option>
+						<option value="schedG09">Type 9</option>
+						<option value="schedG10">Type 10</option>
+						<option value="schedG11">Type 11</option>
+						<option value="schedG12">Type 12</option>
 					{/if}
 				</select>
 				<button
