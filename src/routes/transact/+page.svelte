@@ -725,6 +725,17 @@
 		}
 	}
 
+	function handleSearchTransact(event) {
+		searchQuery = event.target.value.toLowerCase();
+		limitedData = data
+			.filter(
+				(user) =>
+					user.tranPP.toLowerCase().includes(searchQuery) ||
+					user.tranBY.toLowerCase().includes(searchQuery)
+			)
+			.slice(0, 6);
+	}
+
 	function handleTransact() {
 		let tranID = makeID();
 
@@ -1278,7 +1289,7 @@
 					<input
 						class="input"
 						placeholder="Search..."
-						on:input={handleSearch} />
+						on:input={handleSearchTransact} />
 				</div>
 				<div class="flex flex-row gap-2">
 					<button

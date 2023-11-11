@@ -2266,9 +2266,6 @@
 						<select
 							id="userST"
 							class="select">
-							<option>Pre-Registered</option>
-							<option>Registered</option>
-							<option>Enrolled</option>
 							<option>Archived</option>
 							<option>Activated</option>
 							<option>Disabled</option>
@@ -2283,7 +2280,6 @@
 						<select
 							id="userCL"
 							class="select">
-							<option>Developer</option>
 							<option>Administrator</option>
 							<option>Registrar</option>
 							<option>Cashier</option>
@@ -2291,8 +2287,6 @@
 							<option>Faculty</option>
 							<option>Guidance</option>
 							<option>Librarian</option>
-							<option>Student</option>
-							<option>Parent</option>
 						</select>
 					</div>
 				</div>

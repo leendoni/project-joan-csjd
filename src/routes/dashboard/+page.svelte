@@ -3,7 +3,15 @@
 	import { goto } from '$app/navigation';
 
 	import { initializeApp } from 'firebase/app';
-	import { doc, getDoc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
+	import {
+		collection,
+		doc,
+		getDoc,
+		getDocs,
+		getFirestore,
+		setDoc,
+		updateDoc
+	} from 'firebase/firestore';
 
 	const firebaseConfig = {
 		apiKey: 'AIzaSyCJXvnm6dIMnD8AQtNUw-OSZV8yq1HMDXI',
@@ -106,6 +114,33 @@
 		}
 	}
 
+	let posts = [];
+
+	async function fetchBulletin() {
+		try {
+			const pathBulletin = collection(db, 'csjd-main', 'data', 'bulletin');
+			const querySnapshot = await getDocs(pathBulletin);
+			posts = [];
+			querySnapshot.forEach((doc) => {
+				const post = doc.data();
+				posts.push(post);
+			});
+		} catch (error) {
+			console.error('Error retrieving bulletin data:', error);
+		}
+	}
+
+	function dateIsWithinRange(st, nd) {
+		const today = new Date();
+		const startDateParts = st.split('/');
+		const endDateParts = nd.split('/');
+
+		const startDate = new Date(startDateParts[2], startDateParts[1] - 1, startDateParts[0]);
+		const endDate = new Date(endDateParts[2], endDateParts[1] - 1, endDateParts[0]);
+
+		return startDate <= today && today <= endDate;
+	}
+
 	async function handleLogout() {
 		const updatedData = {
 			userOL: false
@@ -148,6 +183,7 @@
 		loclCL = localStorage.getItem('loclCL');
 
 		checkModuleAccess();
+		fetchBulletin();
 	});
 </script>
 
@@ -625,7 +661,58 @@
 	</div>
 
 	{#if modlST}
-		<div class="flex flex-col h-full w-full pt-20 pl-6 lg:pl-80 pr-6" />
+		<div class="flex flex-col h-full w-full pt-20 pl-6 lg:pl-80 pr-6">
+			<div class="flex flex-col w-full">
+				<h1 class="text-2xl font-semibold">Campus Bulletin</h1>
+			</div>
+			<br />
+			<div class="flex flex-row gap-2">
+				{#each posts as post (post.postID)}
+					{#if loclCL === post.postTO || post.postTO === 'All' || !post.postTO}
+						<div class="flex flex-col gap-2 p-4 w-full h-60 lg:w-1/3 rounded-xl bg-border">
+							{#if post.postCL === 'Information'}
+								<div class="h-1 rounded-xl bg-sky-600" />
+							{:else if post.postCL === 'Announcement'}
+								<div class="h-1 rounded-xl bg-red-600" />
+							{:else if post.postCL === 'Event'}
+								<div class="h-1 rounded-xl bg-amber-600" />
+							{/if}
+							<div class="flex flex-col w-full">
+								<p class="text-sm">{post.postCL}</p>
+								<p class="text-lg font-bold">{post.postNM}</p>
+								<p class="text-xs">by: {post.postBY}</p>
+							</div>
+							<hr />
+							<p class="inline-flex flex-col text-sm whitespace-normal">
+								{post.postDC}
+							</p>
+						</div>
+					{/if}
+				{/each}
+				<!-- {#if !posts.some((post) => dateIsWithinRange(post.postSD, post.postND) && (loclCL === post.postTO || post.postTO === 'All' || !post.postTO))}
+					<div class="flex flex-col lg:flex-row w-full gap-2">
+						<div class="flex flex-col gap-2 p-4 w-full h-60 lg:w-1/3 rounded-xl bg-border">
+							<div class="h-1 rounded-xl bg-backgroundSecondary" />
+							<div class="flex flex-col w-full h-full items-center justify-center">
+								<p class="text-sm">There are currently no active posts.</p>
+							</div>
+						</div>
+						<div class="flex flex-col gap-2 p-4 w-full h-60 lg:w-1/3 rounded-xl bg-border">
+							<div class="h-1 rounded-xl bg-backgroundSecondary" />
+							<div class="flex flex-col w-full h-full items-center justify-center">
+								<p class="text-sm">There are currently no active posts.</p>
+							</div>
+						</div>
+						<div class="flex flex-col gap-2 p-4 w-full h-60 lg:w-1/3 rounded-xl bg-border">
+							<div class="h-1 rounded-xl bg-backgroundSecondary" />
+							<div class="flex flex-col w-full h-full items-center justify-center">
+								<p class="text-sm">There are currently no active posts.</p>
+							</div>
+						</div>
+					</div>
+				{/if} -->
+			</div>
+		</div>
 	{:else if !modlST}
 		<div
 			class="flex flex-col h-screen w-screen justify-center pt-20 pb-8 pl-6 lg:pl-80 pr-6 gap-8 bg-white dark:bg-backgroundPrimary">
