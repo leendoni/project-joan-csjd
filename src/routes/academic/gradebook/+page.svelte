@@ -619,6 +619,7 @@
 					<span class="text-xs font-normal text-content2">systID : csjd-main</span>
 				</div>
 			</section>
+			{#if loclCL != 'Faculty'}
 			<section class="sidebar-content min-h-[20rem]">
 				<nav class="menu rounded-md">
 					<section class="menu-section px-4">
@@ -838,6 +839,8 @@
 					</section>
 				</nav>
 			</section>
+			{:else}
+			{/if}
 			<section class="sidebar-footer bg-gray-2 pt-2">
 				<div class="divider my-0" />
 				<div class="dropdown z-50 flex h-fit w-full cursor-pointer hover:bg-gray-4">
