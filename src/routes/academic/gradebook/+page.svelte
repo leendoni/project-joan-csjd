@@ -326,7 +326,7 @@
 	// functions below must exist on all documents
 
 	const modlID = 'B02';
-	const modlNM = 'Subject Management';
+	const modlNM = 'Gradebook';
 
 	let modlST = true;
 
