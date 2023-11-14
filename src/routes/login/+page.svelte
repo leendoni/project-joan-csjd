@@ -82,7 +82,11 @@
 							`${userData.userLN}, ${userData.userFN} ${userData.userMN}`
 						);
 
-						goto('/dashboard');
+						if (userData.userCL != 'Faculty'){
+							goto('/dashboard');
+						} else {
+							goto('/academic/gradebook')
+						}
 					} else {
 						hasIncorrectPW = true;
 					}
