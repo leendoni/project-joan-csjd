@@ -1385,6 +1385,15 @@
 					<div class="form-group flex flex-col lg:flex-row w-full">
 						<div class="form-field w-full">
 							<label
+								for="userOR"
+								class="form-label">OR Number</label>
+							<input
+								id="userOR"
+								class="input max-w-full"
+								bind:value={selectedUserData.userOR} />
+						</div>
+						<div class="form-field w-full">
+							<label
 								for="userLR"
 								class="form-label">Learner's Ref. No.</label>
 							<input
@@ -1759,6 +1768,16 @@
 						<h1 class="text-sm font-semibold underline">Academic Information</h1>
 					</div>
 					<div class="form-group flex flex-col lg:flex-row w-full">
+						<div class="form-field w-full">
+							<label
+								for="userOR"
+								class="form-label">OR Number</label>
+							<input
+								id="userOR"
+								class="input max-w-full"
+								readonly
+								bind:value={selectedUserData.userOR} />
+						</div>
 						<div class="form-field w-full">
 							<label
 								for="userLR"

@@ -728,7 +728,7 @@
 				<p class="text-xs">Here are your posted grades.</p>
 			</div>
 			<div class="flex w-full overflow-x-auto">
-				<table class="table table-hover table-compact">
+				<table class="table table-compact">
 					<thead>
 						<tr>
 							<th>Subject Name</th>
@@ -736,18 +736,64 @@
 							<th>Grade (Q2)</th>
 							<th>Grade (Q3)</th>
 							<th>Grade (Q4)</th>
+							<th>Final Grade</th>
 						</tr>
 					</thead>
 					<tbody>
 						{#each limitedGrades as item (item.gradOF)}
-							<tr on:click={() => handleRowClick(item)}>
+							<tr>
 								<td>{item.gradON}</td>
 								<td>{item.gradQ1}</td>
 								<td>{item.gradQ2}</td>
 								<td>{item.gradQ3}</td>
 								<td>{item.gradQ4}</td>
+								<td
+									class=" font-bold
+    {(parseInt(item.gradQ1) +
+										parseInt(item.gradQ2) +
+										parseInt(item.gradQ3) +
+										parseInt(item.gradQ4)) /
+										4 <
+									74.5
+										? 'bg-red-200'
+										: (parseInt(item.gradQ1) +
+												parseInt(item.gradQ2) +
+												parseInt(item.gradQ3) +
+												parseInt(item.gradQ4)) /
+												4 <
+										  79.5
+										? 'bg-orange-200'
+										: (parseInt(item.gradQ1) +
+												parseInt(item.gradQ2) +
+												parseInt(item.gradQ3) +
+												parseInt(item.gradQ4)) /
+												4 <
+										  84.5
+										? 'bg-yellow-200'
+										: (parseInt(item.gradQ1) +
+												parseInt(item.gradQ2) +
+												parseInt(item.gradQ3) +
+												parseInt(item.gradQ4)) /
+												4 <
+										  89.5
+										? 'bg-green-200'
+										: 'bg-blue-200'}">
+									{(parseInt(item.gradQ1) +
+										parseInt(item.gradQ2) +
+										parseInt(item.gradQ3) +
+										parseInt(item.gradQ4)) /
+										4}
+								</td>
 							</tr>
 						{/each}
+						<tr>
+							<td />
+							<td />
+							<td />
+							<td />
+							<td><strong>General Average</strong></td>
+							<td />
+						</tr>
 					</tbody>
 				</table>
 			</div>

@@ -30,12 +30,14 @@
 		{ id: 'acadSM', path: 'currentSemester' },
 		{ id: 'acadQT', path: 'currentQuarter' },
 		{ id: 'acadSD', path: 'currentStartDate' },
-		{ id: 'acadED', path: 'currentEndDate' }
+		{ id: 'acadED', path: 'currentEndDate' },
+		{ id: 'nrolSD', path: 'registStartDate' },
+		{ id: 'nrolED', path: 'enrollEndDate' }
 	];
 
 	let userClasses = [
-		'Developer',
-		'Administrator',
+		// 'Developer',
+		// 'Administrator',
 		'Registrar',
 		'Cashier',
 		'Admission',
@@ -47,10 +49,10 @@
 	];
 
 	let modules = [
-		{
-			section: 'Maintenance Modules',
-			items: ['System Reports', 'System Defaults', 'System Guide']
-		},
+		// {
+		// 	section: 'Maintenance Modules',
+		// 	items: ['System Reports', 'System Defaults', 'System Guide']
+		// },
 		{
 			section: 'Management Modules',
 			items: [
@@ -77,10 +79,10 @@
 			section: 'Financial Modules',
 			items: ['Transactions', 'Transaction Defaults']
 		},
-		{
-			section: 'Archiving Modules',
-			items: ['Student Archives', 'Employee Archives', 'System Archives']
-		},
+		// {
+		// 	section: 'Archiving Modules',
+		// 	items: ['Student Archives', 'Employee Archives', 'System Archives']
+		// },
 		{
 			section: 'General Modules',
 			items: ['Student Application', 'Parent Registration']
@@ -95,6 +97,16 @@
 		if (startDate > endDate) {
 			alert('End date must be later than the start date.');
 			document.getElementById('acadED').value = '';
+		}
+	};
+
+	const validateEndDate2 = () => {
+		const startDate = new Date(document.getElementById('nrolSD').value);
+		const endDate = new Date(document.getElementById('nrolED').value);
+
+		if (startDate > endDate) {
+			alert('End date must be later than the start date.');
+			document.getElementById('nrolED').value = '';
 		}
 	};
 
@@ -165,6 +177,111 @@
 			});
 	}
 
+	// onMount(async () => {
+	// 	loclID = localStorage.getItem('loclID');
+	// 	loclLN = localStorage.getItem('loclLN');
+	// 	loclFN = localStorage.getItem('loclFN');
+	// 	loclMN = localStorage.getItem('loclMN');
+	// 	loclCL = localStorage.getItem('loclCL');
+
+	// 	// for system settings
+	// 	systemSettings.forEach((setting) => {
+	// 		const settingRef = doc(db, 'csjd-main', 'defaults', 'system', setting.path);
+	// 		const element = document.getElementById(setting.id);
+	// 		if (element) {
+	// 			onSnapshot(settingRef, (doc) => {
+	// 				if (doc.exists()) {
+	// 					element.value = doc.data().value;
+	// 				}
+	// 			});
+
+	// 			// Add an event listener to detect changes and update Firestore when the value is changed
+	// 			element.addEventListener('change', () => {
+	// 				setDoc(settingRef, { value: element.value });
+	// 				handleAction(
+	// 					'Successful',
+	// 					`Made changes to ${setting.path}`,
+	// 					`${loclLN}, ${loclFN} ${loclMN}`
+	// 				);
+	// 			});
+	// 		}
+	// 	});
+
+	// 	// for academic defaults
+	// 	academicDefaults.forEach((setting) => {
+	// 		const settingRef = doc(db, 'csjd-main', 'defaults', 'academic', setting.path);
+	// 		const element = document.getElementById(setting.id);
+	// 		if (element) {
+	// 			onSnapshot(settingRef, (doc) => {
+	// 				if (doc.exists()) {
+	// 					element.value = doc.data().value;
+	// 				}
+	// 			});
+
+	// 			// Add an event listener to detect changes and update Firestore when the value is changed
+	// 			element.addEventListener('change', () => {
+	// 				setDoc(settingRef, { value: element.value });
+	// 				handleAction(
+	// 					'Successful',
+	// 					`Made changes to ${setting.path}`,
+	// 					`${loclLN}, ${loclFN} ${loclMN}`
+	// 				);
+	// 			});
+	// 		}
+	// 	});
+
+	// 	// for classes
+	// 	userClasses.forEach((userClass) => {
+	// 		const userClassRef = doc(db, 'csjd-main', 'defaults', 'user', userClass);
+	// 		onSnapshot(userClassRef, (doc) => {
+	// 			if (doc.exists()) {
+	// 				// Update the checkbox based on the value in Firestore
+	// 				const isChecked = doc.data().enabled;
+	// 				const checkbox = document.getElementById(userClass.replace(/ /g, ''));
+	// 				if (checkbox) {
+	// 					checkbox.checked = isChecked;
+	// 				}
+	// 			}
+	// 		});
+
+	// 		const checkbox = document.getElementById(userClass.replace(/ /g, ''));
+	// 		if (checkbox) {
+	// 			checkbox.addEventListener('change', () => {
+	// 				setDoc(userClassRef, { enabled: checkbox.checked });
+	// 				handleAction(
+	// 					'Successful',
+	// 					`Made changes to ${userClass}`,
+	// 					`${loclLN}, ${loclFN} ${loclMN}`
+	// 				);
+	// 			});
+	// 		}
+	// 	});
+
+	// 	// for modules
+	// 	modules.forEach((module) => {
+	// 		module.items.forEach((item) => {
+	// 			const moduleRef = doc(db, 'csjd-main', 'defaults', 'module', item);
+	// 			onSnapshot(moduleRef, (doc) => {
+	// 				if (doc.exists()) {
+	// 					const isChecked = doc.data().enabled;
+	// 					const checkbox = document.getElementById(item.replace(/ /g, ''));
+	// 					if (checkbox) {
+	// 						checkbox.checked = isChecked;
+	// 					}
+	// 				}
+	// 			});
+
+	// 			const checkbox = document.getElementById(item.replace(/ /g, ''));
+	// 			if (checkbox) {
+	// 				checkbox.addEventListener('change', () => {
+	// 					setDoc(moduleRef, { enabled: checkbox.checked });
+	// 					handleAction('Successful', `Made changes to ${item}`, `${loclLN}, ${loclFN} ${loclMN}`);
+	// 				});
+	// 			}
+	// 		});
+	// 	});
+	// });
+
 	onMount(async () => {
 		loclID = localStorage.getItem('loclID');
 		loclLN = localStorage.getItem('loclLN');
@@ -172,100 +289,67 @@
 		loclMN = localStorage.getItem('loclMN');
 		loclCL = localStorage.getItem('loclCL');
 
-		// for system settings
+		// Consolidate snapshot listeners for system settings and academic defaults
+		const allSettingsRefs = [];
 		systemSettings.forEach((setting) => {
 			const settingRef = doc(db, 'csjd-main', 'defaults', 'system', setting.path);
 			const element = document.getElementById(setting.id);
 			if (element) {
-				onSnapshot(settingRef, (doc) => {
-					if (doc.exists()) {
-						element.value = doc.data().value;
-					}
-				});
-
-				// Add an event listener to detect changes and update Firestore when the value is changed
-				element.addEventListener('change', () => {
-					setDoc(settingRef, { value: element.value });
-					handleAction(
-						'Successful',
-						`Made changes to ${setting.path}`,
-						`${loclLN}, ${loclFN} ${loclMN}`
-					);
-				});
+				allSettingsRefs.push({ ref: settingRef, element });
 			}
 		});
 
-		// for academic defaults
 		academicDefaults.forEach((setting) => {
 			const settingRef = doc(db, 'csjd-main', 'defaults', 'academic', setting.path);
 			const element = document.getElementById(setting.id);
 			if (element) {
-				onSnapshot(settingRef, (doc) => {
-					if (doc.exists()) {
-						element.value = doc.data().value;
-					}
-				});
-
-				// Add an event listener to detect changes and update Firestore when the value is changed
-				element.addEventListener('change', () => {
-					setDoc(settingRef, { value: element.value });
-					handleAction(
-						'Successful',
-						`Made changes to ${setting.path}`,
-						`${loclLN}, ${loclFN} ${loclMN}`
-					);
-				});
+				allSettingsRefs.push({ ref: settingRef, element });
 			}
 		});
 
-		// for classes
-		userClasses.forEach((userClass) => {
-			const userClassRef = doc(db, 'csjd-main', 'defaults', 'user', userClass);
-			onSnapshot(userClassRef, (doc) => {
+		allSettingsRefs.forEach(({ ref, element }) => {
+			onSnapshot(ref, (doc) => {
 				if (doc.exists()) {
-					// Update the checkbox based on the value in Firestore
-					const isChecked = doc.data().enabled;
-					const checkbox = document.getElementById(userClass.replace(/ /g, ''));
-					if (checkbox) {
-						checkbox.checked = isChecked;
-					}
+					element.value = doc.data().value;
 				}
 			});
 
+			element.addEventListener('change', () => {
+				setDoc(ref, { value: element.value });
+				handleAction('Successful', `Made changes to ${ref.path}`, `${loclLN}, ${loclFN} ${loclMN}`);
+			});
+		});
+
+		// Snapshot listeners for classes and modules
+		const classesAndModulesRefs = [];
+		userClasses.forEach((userClass) => {
+			const userClassRef = doc(db, 'csjd-main', 'defaults', 'user', userClass);
 			const checkbox = document.getElementById(userClass.replace(/ /g, ''));
 			if (checkbox) {
-				checkbox.addEventListener('change', () => {
-					setDoc(userClassRef, { enabled: checkbox.checked });
-					handleAction(
-						'Successful',
-						`Made changes to ${userClass}`,
-						`${loclLN}, ${loclFN} ${loclMN}`
-					);
-				});
+				classesAndModulesRefs.push({ ref: userClassRef, checkbox });
 			}
 		});
 
-		// for modules
 		modules.forEach((module) => {
 			module.items.forEach((item) => {
 				const moduleRef = doc(db, 'csjd-main', 'defaults', 'module', item);
-				onSnapshot(moduleRef, (doc) => {
-					if (doc.exists()) {
-						const isChecked = doc.data().enabled;
-						const checkbox = document.getElementById(item.replace(/ /g, ''));
-						if (checkbox) {
-							checkbox.checked = isChecked;
-						}
-					}
-				});
-
 				const checkbox = document.getElementById(item.replace(/ /g, ''));
 				if (checkbox) {
-					checkbox.addEventListener('change', () => {
-						setDoc(moduleRef, { enabled: checkbox.checked });
-						handleAction('Successful', `Made changes to ${item}`, `${loclLN}, ${loclFN} ${loclMN}`);
-					});
+					classesAndModulesRefs.push({ ref: moduleRef, checkbox });
 				}
+			});
+		});
+
+		classesAndModulesRefs.forEach(({ ref, checkbox }) => {
+			onSnapshot(ref, (doc) => {
+				if (doc.exists()) {
+					checkbox.checked = doc.data().enabled;
+				}
+			});
+
+			checkbox.addEventListener('change', () => {
+				setDoc(ref, { enabled: checkbox.checked });
+				handleAction('Successful', `Made changes to ${ref.path}`, `${loclLN}, ${loclFN} ${loclMN}`);
 			});
 		});
 	});
@@ -821,6 +905,27 @@
 					type="date"
 					class="input max-w-full"
 					on:change={validateEndDate} />
+			</div>
+		</div>
+		<div class="form-group flex lg:flex-row">
+			<div class="form-field w-full">
+				<label
+					for="nrolSD"
+					class="form-label">Registration Start Date</label>
+				<input
+					id="nrolSD"
+					type="date"
+					class="input max-w-full" />
+			</div>
+			<div class="form-field w-full">
+				<label
+					for="nrolED"
+					class="form-label">Enrollment End Date</label>
+				<input
+					id="nrolED"
+					type="date"
+					class="input max-w-full"
+					on:change={validateEndDate2} />
 			</div>
 		</div>
 		<div class="divider my-0" />

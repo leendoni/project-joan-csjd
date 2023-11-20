@@ -21,11 +21,11 @@
 
 	let isChecked = false;
 	let hasApplied = false;
+	let userID = '';
 
 	async function handleCreate() {
 		let userST,
 			userCL,
-			userID,
 			userOL,
 			userFP,
 			userUN,
@@ -532,6 +532,7 @@
 					<span
 						>Your student application has been received. Proceed to the school registrar if you wish
 						to pursue with enrolling.</span>
+					<span>Your application reference number is {userID}</span>
 				</div>
 			</div>
 		</div>
