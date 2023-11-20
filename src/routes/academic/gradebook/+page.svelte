@@ -620,227 +620,226 @@
 				</div>
 			</section>
 			{#if loclCL != 'Faculty'}
-			<section class="sidebar-content min-h-[20rem]">
-				<nav class="menu rounded-md">
-					<section class="menu-section px-4">
-						<a
-							href="/dashboard"
-							class="menu-item">Dashboard</a>
-						<div class="divider my-0" />
-						<ul class="menu-items">
-							<li>
-								<input
-									type="checkbox"
-									id="menu-1"
-									class="menu-toggle"
-									on:change={toggleMenu} />
-								<label
-									class="menu-item justify-between"
-									for="menu-1">
-									<div class="flex gap-2">
-										<span>Maintenance Modules</span>
+				<section class="sidebar-content min-h-[20rem]">
+					<nav class="menu rounded-md">
+						<section class="menu-section px-4">
+							<a
+								href="/dashboard"
+								class="menu-item">Dashboard</a>
+							<div class="divider my-0" />
+							<ul class="menu-items">
+								<li>
+									<input
+										type="checkbox"
+										id="menu-1"
+										class="menu-toggle"
+										on:change={toggleMenu} />
+									<label
+										class="menu-item justify-between"
+										for="menu-1">
+										<div class="flex gap-2">
+											<span>Maintenance Modules</span>
+										</div>
+										<span class="menu-icon">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												class="h-5 w-5"
+												viewBox="0 0 20 20"
+												fill="currentColor">
+												<path
+													fill-rule="evenodd"
+													d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+													clip-rule="evenodd" />
+											</svg>
+										</span>
+									</label>
+									<div class="menu-item-collapse">
+										<div class="min-h-0">
+											<a
+												href="/system"
+												class="menu-item ml-6">System Information</a>
+											<a
+												href="/system/reports"
+												class="menu-item ml-6">System Reports</a>
+											<a
+												href="/system/defaults"
+												class="menu-item ml-6">System Defaults</a>
+										</div>
 									</div>
-									<span class="menu-icon">
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											class="h-5 w-5"
-											viewBox="0 0 20 20"
-											fill="currentColor">
-											<path
-												fill-rule="evenodd"
-												d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-												clip-rule="evenodd" />
-										</svg>
-									</span>
-								</label>
-								<div class="menu-item-collapse">
-									<div class="min-h-0">
-										<a
-											href="/system"
-											class="menu-item ml-6">System Information</a>
-										<a
-											href="/system/reports"
-											class="menu-item ml-6">System Reports</a>
-										<a
-											href="/system/defaults"
-											class="menu-item ml-6">System Defaults</a>
+								</li>
+								<li>
+									<input
+										type="checkbox"
+										id="menu-2"
+										class="menu-toggle"
+										on:change={toggleMenu} />
+									<label
+										class="menu-item justify-between"
+										for="menu-2">
+										<div class="flex gap-2">
+											<span>Management Modules</span>
+										</div>
+										<span class="menu-icon">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												class="h-5 w-5"
+												viewBox="0 0 20 20"
+												fill="currentColor">
+												<path
+													fill-rule="evenodd"
+													d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+													clip-rule="evenodd" />
+											</svg>
+										</span>
+									</label>
+									<div class="menu-item-collapse">
+										<div class="min-h-0">
+											<a
+												href="/manage/users"
+												class="menu-item ml-6">User Management</a>
+											<a
+												href="/manage/subjects"
+												class="menu-item ml-6">Subject Management</a>
+											<a
+												href="/manage/sections"
+												class="menu-item ml-6">Section Management</a>
+											<a
+												href="/manage/schedules"
+												class="menu-item ml-6">Schedule Management</a>
+											<div class="divider my-0" />
+											<a
+												href="/manage/bulletin"
+												class="menu-item ml-6">Bulletin Management</a>
+										</div>
 									</div>
-								</div>
-							</li>
-							<li>
-								<input
-									type="checkbox"
-									id="menu-2"
-									class="menu-toggle"
-									on:change={toggleMenu} />
-								<label
-									class="menu-item justify-between"
-									for="menu-2">
-									<div class="flex gap-2">
-										<span>Management Modules</span>
-									</div>
-									<span class="menu-icon">
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											class="h-5 w-5"
-											viewBox="0 0 20 20"
-											fill="currentColor">
-											<path
-												fill-rule="evenodd"
-												d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-												clip-rule="evenodd" />
-										</svg>
-									</span>
-								</label>
-								<div class="menu-item-collapse">
-									<div class="min-h-0">
-										<a
-											href="/manage/users"
-											class="menu-item ml-6">User Management</a>
-										<a
-											href="/manage/subjects"
-											class="menu-item ml-6">Subject Management</a>
-										<a
-											href="/manage/sections"
-											class="menu-item ml-6">Section Management</a>
-										<a
-											href="/manage/schedules"
-											class="menu-item ml-6">Schedule Management</a>
-										<div class="divider my-0" />
-										<a
-											href="/manage/bulletin"
-											class="menu-item ml-6">Bulletin Management</a>
-									</div>
-								</div>
-							</li>
-							<li>
-								<input
-									checked
-									type="checkbox"
-									id="menu-3"
-									class="menu-toggle"
-									on:change={toggleMenu} />
-								<label
-									class="menu-item justify-between"
-									for="menu-3">
-									<div class="flex gap-2">
-										<span>Academic Modules</span>
-									</div>
-									<span class="menu-icon">
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											class="h-5 w-5"
-											viewBox="0 0 20 20"
-											fill="currentColor">
-											<path
-												fill-rule="evenodd"
-												d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-												clip-rule="evenodd" />
-										</svg>
-									</span>
-								</label>
-								<div class="menu-item-collapse">
-									<div class="min-h-0">
-										<a
-											href="/academic/admissions"
-											class="menu-item ml-6">Admissions</a>
-										<a
-											href="/academic/enrollments"
-											class="menu-item ml-6">Enrollments</a>
+								</li>
+								<li>
+									<input
+										checked
+										type="checkbox"
+										id="menu-3"
+										class="menu-toggle"
+										on:change={toggleMenu} />
+									<label
+										class="menu-item justify-between"
+										for="menu-3">
+										<div class="flex gap-2">
+											<span>Academic Modules</span>
+										</div>
+										<span class="menu-icon">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												class="h-5 w-5"
+												viewBox="0 0 20 20"
+												fill="currentColor">
+												<path
+													fill-rule="evenodd"
+													d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+													clip-rule="evenodd" />
+											</svg>
+										</span>
+									</label>
+									<div class="menu-item-collapse">
+										<div class="min-h-0">
+											<a
+												href="/academic/admissions"
+												class="menu-item ml-6">Admissions</a>
+											<a
+												href="/academic/enrollments"
+												class="menu-item ml-6">Enrollments</a>
 
-										<a
-											href="/academic/sections"
-											class="menu-item ml-6">Sections</a>
-										<a
-											href="/academic/gradebook"
-											class="menu-item menu-active ml-6">Gradebook</a>
-										<div class="divider my-0" />
-										<a
-											href="/guidance"
-											class="menu-item ml-6">Violations & Sanctions</a>
+											<a
+												href="/academic/sections"
+												class="menu-item ml-6">Sections</a>
+											<a
+												href="/academic/gradebook"
+												class="menu-item menu-active ml-6">Gradebook</a>
+											<div class="divider my-0" />
+											<a
+												href="/guidance"
+												class="menu-item ml-6">Violations & Sanctions</a>
+										</div>
 									</div>
-								</div>
-							</li>
-							<li>
-								<input
-									type="checkbox"
-									id="menu-4"
-									class="menu-toggle"
-									on:change={toggleMenu} />
-								<label
-									class="menu-item justify-between"
-									for="menu-4">
-									<div class="flex gap-2">
-										<span>Financial Modules</span>
+								</li>
+								<li>
+									<input
+										type="checkbox"
+										id="menu-4"
+										class="menu-toggle"
+										on:change={toggleMenu} />
+									<label
+										class="menu-item justify-between"
+										for="menu-4">
+										<div class="flex gap-2">
+											<span>Financial Modules</span>
+										</div>
+										<span class="menu-icon">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												class="h-5 w-5"
+												viewBox="0 0 20 20"
+												fill="currentColor">
+												<path
+													fill-rule="evenodd"
+													d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+													clip-rule="evenodd" />
+											</svg>
+										</span>
+									</label>
+									<div class="menu-item-collapse">
+										<div class="min-h-0">
+											<a
+												href="/transact"
+												class="menu-item ml-6">Transactions</a>
+										</div>
 									</div>
-									<span class="menu-icon">
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											class="h-5 w-5"
-											viewBox="0 0 20 20"
-											fill="currentColor">
-											<path
-												fill-rule="evenodd"
-												d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-												clip-rule="evenodd" />
-										</svg>
-									</span>
-								</label>
-								<div class="menu-item-collapse">
-									<div class="min-h-0">
-										<a
-											href="/transact"
-											class="menu-item ml-6">Transactions</a>
-									</div>
-								</div>
-							</li>
+								</li>
 
-							<li>
-								<input
-									type="checkbox"
-									id="menu-6"
-									class="menu-toggle"
-									on:change={toggleMenu} />
-								<label
-									class="menu-item justify-between"
-									for="menu-6">
-									<div class="flex gap-2">
-										<span>Miscellaneous Modules</span>
+								<li>
+									<input
+										type="checkbox"
+										id="menu-6"
+										class="menu-toggle"
+										on:change={toggleMenu} />
+									<label
+										class="menu-item justify-between"
+										for="menu-6">
+										<div class="flex gap-2">
+											<span>Miscellaneous Modules</span>
+										</div>
+										<span class="menu-icon">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												class="h-5 w-5"
+												viewBox="0 0 20 20"
+												fill="currentColor">
+												<path
+													fill-rule="evenodd"
+													d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+													clip-rule="evenodd" />
+											</svg>
+										</span>
+									</label>
+									<div class="menu-item-collapse">
+										<div class="min-h-0">
+											<a
+												href="/library"
+												class="menu-item ml-6">Library Management</a>
+											<a
+												href="/clinic"
+												class="menu-item ml-6">Clinic Management</a>
+										</div>
 									</div>
-									<span class="menu-icon">
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											class="h-5 w-5"
-											viewBox="0 0 20 20"
-											fill="currentColor">
-											<path
-												fill-rule="evenodd"
-												d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-												clip-rule="evenodd" />
-										</svg>
-									</span>
-								</label>
-								<div class="menu-item-collapse">
-									<div class="min-h-0">
-										<a
-											href="/library"
-											class="menu-item ml-6">Library Management</a>
-										<a
-											href="/clinic"
-											class="menu-item ml-6">Clinic Management</a>
-									</div>
-								</div>
-							</li>
-						</ul>
-						<div class="divider my-0" />
-						<a
-							href="/system/guide"
-							class="menu-item">System Guide</a>
-					</section>
-				</nav>
-			</section>
-			{:else}
-			{/if}
+								</li>
+							</ul>
+							<div class="divider my-0" />
+							<a
+								href="/system/guide"
+								class="menu-item">System Guide</a>
+						</section>
+					</nav>
+				</section>
+			{:else}{/if}
 			<section class="sidebar-footer bg-gray-2 pt-2">
 				<div class="divider my-0" />
 				<div class="dropdown z-50 flex h-fit w-full cursor-pointer hover:bg-gray-4">
@@ -1019,162 +1018,9 @@
 			</div>
 			<div class="divider my-0" />
 			<div class="flex flex-col">
-				<h1 class="text-xl font-semibold">Student Masterlist</h1>
-				<p class="text-xs">Below is the list of all student accounts registered on the system.</p>
-			</div>
-			<div class="flex flex-row justify-between">
-				<div class="flex flex-row gap-2">
-					<input
-						class="input"
-						placeholder="Search..."
-						on:input={handleSearch} />
-				</div>
-				<div class="flex flex-row gap-2">
-					<button
-						class="btn btn-outline-success"
-						on:click={() => fetchUsers()}>Refresh</button>
-					<div class="pagination">
-						<button
-							class="btn"
-							on:click={() => changePage(currentPage - 1)}
-							disabled={currentPage === 0}>
-							<svg
-								width="18"
-								height="18"
-								viewBox="0 0 20 20"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg">
-								<path
-									fill-rule="evenodd"
-									clip-rule="evenodd"
-									d="M12.2574 5.59165C11.9324 5.26665 11.4074 5.26665 11.0824 5.59165L7.25742 9.41665C6.93242 9.74165 6.93242 10.2667 7.25742 10.5917L11.0824 14.4167C11.4074 14.7417 11.9324 14.7417 12.2574 14.4167C12.5824 14.0917 12.5824 13.5667 12.2574 13.2417L9.02409 9.99998L12.2574 6.76665C12.5824 6.44165 12.5741 5.90832 12.2574 5.59165Z"
-									fill="#969696" />
-							</svg>
-						</button>
-						<button
-							class="btn btn-outline-primary"
-							on:click={() => changePage(currentPage + 1)}
-							disabled={currentPage === Math.floor(users.length / 6)}>
-							<svg
-								width="18"
-								height="18"
-								viewBox="0 0 20 20"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg">
-								<path
-									fill-rule="evenodd"
-									clip-rule="evenodd"
-									d="M7.74375 5.2448C7.41875 5.5698 7.41875 6.0948 7.74375 6.4198L10.9771 9.65314L7.74375 12.8865C7.41875 13.2115 7.41875 13.7365 7.74375 14.0615C8.06875 14.3865 8.59375 14.3865 8.91875 14.0615L12.7437 10.2365C13.0687 9.91147 13.0687 9.38647 12.7437 9.06147L8.91875 5.23647C8.60208 4.9198 8.06875 4.9198 7.74375 5.2448Z"
-									fill="#969696" />
-							</svg>
-						</button>
-					</div>
-				</div>
-			</div>
-			<div class="flex w-full">
-				<table class="table table-hover table-compact">
-					<thead>
-						<tr>
-							<th>Status</th>
-							<th>Full Name</th>
-							<th>Class</th>
-						</tr>
-					</thead>
-					<tbody>
-						{#each limitedUsers as user (user.userID)}
-							<tr
-								on:click={() => {
-									if ((isEditing = false)) {
-										isSelecting = true;
-									} else if ((isCreating = false)) {
-										isSelecting = true;
-									} else {
-										isSelecting = true;
-									}
-								}}
-								on:click={() => handleRowClickUser(user)}>
-								<td>{user.userST}</td>
-								<td>{user.userLN}, {user.userFN} {user.userMN}</td>
-								<td>{user.userCL}</td>
-							</tr>
-						{/each}
-					</tbody>
-				</table>
-			</div>
-			<div class="divider my-0" />
-			<div class="flex flex-col">
 				<h1 class="text-xl font-semibold">Subject Information</h1>
 				<p class="text-xs">Select a subject to load its information.</p>
 			</div>
-			{#if isEditing && !isCreating}
-				<div class="flex flex-col">
-					<h1 class="text-sm font-semibold underline">Subject Information</h1>
-				</div>
-				<div class="form-group flex flex-col">
-					<div class="form-field lg:w-1/2">
-						<label
-							for="subjST"
-							class="form-label">Status</label>
-						<select
-							id="subjST"
-							class="select"
-							bind:value={selectedSubjectData.subjST}>
-							<option>Active</option>
-							<option>Archived</option>
-						</select>
-					</div>
-					<div class="form-field w-full lg:w-1/2">
-						<label
-							for="subjNM"
-							class="form-label">Subject Name</label>
-						<input
-							id="subjNM"
-							class="input max-w-full"
-							bind:value={selectedSubjectData.subjNM}
-							readonly />
-					</div>
-					<div class="form-field lg:w-1/2">
-						<label
-							for="subjTC"
-							class="form-label">Subject Teacher</label>
-						<select
-							id="subjTC"
-							class="select"
-							bind:value={selectedSubjectData.subjTC}>
-							{#each facultyUsers as facultyUser (facultyUser.userUN)}
-								<option value="{facultyUser.userLN}, {facultyUser.userFN} {facultyUser.userMN}">
-									{facultyUser.userLN}, {facultyUser.userFN}
-									{facultyUser.userMN}
-								</option>
-							{/each}
-						</select>
-					</div>
-					<div class="form-field lg:w-1/2">
-						<label
-							for="subjYR"
-							class="form-label">Grade Level</label>
-						<select
-							id="subjYR"
-							class="select"
-							bind:value={selectedSubjectData.subjYR}>
-							<option value="Kinder 1">Kinder 1</option>
-							<option value="Kinder 2">Kinder 2</option>
-							<option value="Grade 01">Grade 01</option>
-							<option value="Grade 02">Grade 02</option>
-							<option value="Grade 03">Grade 03</option>
-							<option value="Grade 04">Grade 04</option>
-							<option value="Grade 05">Grade 05</option>
-							<option value="Grade 06">Grade 06</option>
-							<option value="Grade 07">Grade 07</option>
-							<option value="Grade 08">Grade 08</option>
-							<option value="Grade 09">Grade 09</option>
-							<option value="Grade 10">Grade 10</option>
-							<option value="Grade 11">Grade 11</option>
-							<option value="Grade 12">Grade 12</option>
-						</select>
-					</div>
-				</div>
-			{/if}
 			{#if isSelecting && !isCreating}
 				<div class="flex flex-col">
 					<h1 class="text-sm font-semibold underline">Subject Information</h1>
@@ -1221,209 +1067,107 @@
 							readonly />
 					</div>
 				</div>
-			{/if}
-			{#if isCreating}
 				<div class="flex flex-col">
-					<h1 class="text-sm font-semibold underline">Subject Information</h1>
+					<h1 class="text-xl font-semibold">Student Masterlist</h1>
+					<p class="text-xs">Below is the list of all student accounts registered on the system.</p>
 				</div>
-				<div class="form-group flex flex-col">
-					<div class="form-field lg:w-1/2">
-						<label
-							for="subjST"
-							class="form-label">Status</label>
-						<select
-							id="subjST"
-							class="select">
-							<option>Active</option>
-							<option>Archived</option>
-						</select>
-					</div>
-					<div class="form-field w-full lg:w-1/2">
-						<label
-							for="subjNM"
-							class="form-label">Subject Name</label>
+				<div class="flex flex-row justify-between">
+					<div class="flex flex-row gap-2">
 						<input
-							id="subjNM"
-							class="input max-w-full" />
+							class="input"
+							placeholder="Search..."
+							on:input={handleSearch} />
 					</div>
-					<div class="form-field lg:w-1/2">
-						<label
-							for="subjTC"
-							class="form-label">Subject Teacher</label>
-						<select
-							id="subjTC"
-							class="select">
-							{#each facultyUsers as facultyUser (facultyUser.userUN)}
-								<option value="{facultyUser.userLN}, {facultyUser.userFN} {facultyUser.userMN}">
-									{facultyUser.userLN}, {facultyUser.userFN}
-									{facultyUser.userMN}
-								</option>
+					<div class="flex flex-row gap-2">
+						<button
+							class="btn btn-outline-success"
+							on:click={() => fetchUsers()}>Refresh</button>
+						<div class="pagination">
+							<button
+								class="btn"
+								on:click={() => changePage(currentPage - 1)}
+								disabled={currentPage === 0}>
+								<svg
+									width="18"
+									height="18"
+									viewBox="0 0 20 20"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg">
+									<path
+										fill-rule="evenodd"
+										clip-rule="evenodd"
+										d="M12.2574 5.59165C11.9324 5.26665 11.4074 5.26665 11.0824 5.59165L7.25742 9.41665C6.93242 9.74165 6.93242 10.2667 7.25742 10.5917L11.0824 14.4167C11.4074 14.7417 11.9324 14.7417 12.2574 14.4167C12.5824 14.0917 12.5824 13.5667 12.2574 13.2417L9.02409 9.99998L12.2574 6.76665C12.5824 6.44165 12.5741 5.90832 12.2574 5.59165Z"
+										fill="#969696" />
+								</svg>
+							</button>
+							<button
+								class="btn btn-outline-primary"
+								on:click={() => changePage(currentPage + 1)}
+								disabled={currentPage === Math.floor(users.length / 6)}>
+								<svg
+									width="18"
+									height="18"
+									viewBox="0 0 20 20"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg">
+									<path
+										fill-rule="evenodd"
+										clip-rule="evenodd"
+										d="M7.74375 5.2448C7.41875 5.5698 7.41875 6.0948 7.74375 6.4198L10.9771 9.65314L7.74375 12.8865C7.41875 13.2115 7.41875 13.7365 7.74375 14.0615C8.06875 14.3865 8.59375 14.3865 8.91875 14.0615L12.7437 10.2365C13.0687 9.91147 13.0687 9.38647 12.7437 9.06147L8.91875 5.23647C8.60208 4.9198 8.06875 4.9198 7.74375 5.2448Z"
+										fill="#969696" />
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="flex w-full">
+					<table class="table table-hover table-compact">
+						<thead>
+							<tr>
+								<th>Full Name</th>
+								<th>First Quarter</th>
+								<th>Second Quarter</th>
+								<th>Third Quarter</th>
+								<th>Fourth Quarter</th>
+							</tr>
+						</thead>
+						<tbody>
+							{#each limitedUsers as user (user.userID)}
+								<tr on:click={() => handleRowClickUser(user)}>
+									<td>{user.userLN}, {user.userFN} {user.userMN}</td>
+									<td>
+										<input
+											id="gradQ1"
+											class="input max-w-full"
+											bind:value={user.gradQ1} />
+									</td>
+									<td>
+										<input
+											id="gradQ2"
+											class="input max-w-full"
+											bind:value={user.gradQ2} />
+									</td>
+									<td>
+										<input
+											id="gradQ3"
+											class="input max-w-full"
+											bind:value={user.gradQ3} />
+									</td>
+									<td>
+										<input
+											id="gradQ4"
+											class="input max-w-full"
+											bind:value={user.gradQ4} />
+									</td>
+								</tr>
 							{/each}
-						</select>
-					</div>
-					<div class="form-field lg:w-1/2">
-						<label
-							for="subjYR"
-							class="form-label">Grade Level</label>
-						<select
-							id="subjYR"
-							class="select">
-							<option value="Kinder 1">Kinder 1</option>
-							<option value="Kinder 2">Kinder 2</option>
-							<option value="Grade 01">Grade 01</option>
-							<option value="Grade 02">Grade 02</option>
-							<option value="Grade 03">Grade 03</option>
-							<option value="Grade 04">Grade 04</option>
-							<option value="Grade 05">Grade 05</option>
-							<option value="Grade 06">Grade 06</option>
-							<option value="Grade 07">Grade 07</option>
-							<option value="Grade 08">Grade 08</option>
-							<option value="Grade 09">Grade 09</option>
-							<option value="Grade 10">Grade 10</option>
-							<option value="Grade 11">Grade 11</option>
-							<option value="Grade 12">Grade 12</option>
-						</select>
-					</div>
+						</tbody>
+					</table>
 				</div>
 			{/if}
-			{#if selectedUserData.userCL == 'Student'}
-				<div class="flex flex-col">
-					<h1 class="text-sm font-semibold underline">Academic Information</h1>
-				</div>
-				<div class="form-group flex flex-col lg:flex-row w-full">
-					<div class="form-field w-full">
-						<label
-							for="userLR"
-							class="form-label">Learner's Ref. No.</label>
-						<input
-							id="userLR"
-							class="input max-w-full"
-							readonly
-							bind:value={selectedUserData.userLR} />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userDP"
-							class="form-label">Current Department</label>
-						<input
-							id="userDP"
-							class="input max-w-full"
-							readonly
-							bind:value={selectedUserData.userDP} />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userYR"
-							class="form-label">Current Year</label>
-						<input
-							id="userYR"
-							class="input max-w-full"
-							readonly
-							bind:value={selectedUserData.userYR} />
-					</div>
-					<div class="form-field w-full">
-						<label
-							for="userSC"
-							class="form-label">Current Section</label>
-						<input
-							id="userSC"
-							class="input max-w-full"
-							readonly
-							bind:value={selectedUserData.userSC} />
-					</div>
-				</div>
-			{/if}
-			<div class="flex flex-col">
-				<h1 class="text-sm font-semibold underline">Personal Information</h1>
-			</div>
-			<div class="form-group flex lg:flex-row">
-				<div class="form-field w-full">
-					<label
-						for="userLN"
-						class="form-label">Last Name</label>
-					<input
-						id="userLN"
-						class="input max-w-full"
-						readonly
-						bind:value={selectedUserData.userLN} />
-				</div>
-				<div class="form-field w-full">
-					<label
-						for="userFN"
-						class="form-label">First Name</label>
-					<input
-						id="userFN"
-						class="input max-w-full"
-						readonly
-						bind:value={selectedUserData.userFN} />
-				</div>
-				<div class="form-field w-full">
-					<label
-						for="userMN"
-						class="form-label">Middle Name</label>
-					<input
-						id="userMN"
-						class="input max-w-full"
-						readonly
-						bind:value={selectedUserData.userMN} />
-				</div>
-				<div class="form-field w-full">
-					<label
-						for="userSF"
-						class="form-label">Suffix</label>
-					<input
-						id="userSF"
-						class="input max-w-full"
-						readonly
-						bind:value={selectedUserData.userSF} />
-				</div>
-			</div>
-			<div class="divider my-0" />
-			<div class="flex flex-col">
-				<h1 class="text-xl font-semibold">Grade Information</h1>
-				<p class="text-xs">Provide the details for this transaction.</p>
-			</div>
-			<div class="form-group flex lg:flex-row">
-				<div class="form-field w-full">
-					<label
-						for="gradQ1"
-						class="form-label">First Quarter</label>
-					<input
-						id="gradQ1"
-						class="input max-w-full"
-						bind:value={gradQ1} />
-				</div>
-				<div class="form-field w-full">
-					<label
-						for="gradQ2"
-						class="form-label">Second Quarter</label>
-					<input
-						id="gradQ2"
-						class="input max-w-full"
-						bind:value={gradQ2} />
-				</div>
-				<div class="form-field w-full">
-					<label
-						for="gradQ3"
-						class="form-label">Third Quarter</label>
-					<input
-						id="gradQ3"
-						class="input max-w-full"
-						bind:value={gradQ3} />
-				</div>
-				<div class="form-field w-full">
-					<label
-						for="gradQ4"
-						class="form-label">Fourth Quarter</label>
-					<input
-						id="gradQ4"
-						class="input max-w-full"
-						bind:value={gradQ4} />
-				</div>
-			</div>
 			<button
 				class="btn btn-outline-success"
-				on:click={() => handleTransact()}>Save Record</button>
+				on:click={() => handleTransact()}>Post Grades</button>
 		</div>
 	{:else if !modlST}
 		<div

@@ -442,12 +442,6 @@
 		fetchUsers();
 	}
 
-	let selectedUserData = [];
-
-	function handleRowClick(userData) {
-		selectedUserData = userData;
-	}
-
 	let isCreating = false;
 	let isSelecting = false;
 	let isEditing = false;
@@ -616,19 +610,19 @@
 	let sections = [];
 	let filteredSections = [];
 
-	async function fetchSections() {
-		try {
-			const db = getFirestore(app);
-			const sectionsCollection = collection(db, 'csjd-main', 'data', 'sections');
-			const querySnapshot = await getDocs(sectionsCollection);
+	// async function fetchSections() {
+	// 	try {
+	// 		const db = getFirestore(app);
+	// 		const sectionsCollection = collection(db, 'csjd-main', 'data', 'sections');
+	// 		const querySnapshot = await getDocs(sectionsCollection);
 
-			sections = querySnapshot.docs.map((doc) => doc.data());
+	// 		sections = querySnapshot.docs.map((doc) => doc.data());
 
-			filteredSections = sections.filter((section) => section.sectYR === selectedUserData.userYR);
-		} catch (error) {
-			console.error('Error fetching user data:', error);
-		}
-	}
+	// 		filteredSections = sections.filter((section) => section.sectYR === selectedUserData.userYR);
+	// 	} catch (error) {
+	// 		console.error('Error fetching user data:', error);
+	// 	}
+	// }
 
 	// functions below must exist on all documents
 
@@ -755,7 +749,9 @@
 			postBY,
 			postNM,
 			postDC,
-			postDT: new Date()
+			postDT: new Date(),
+			postSD,
+			postND
 		};
 
 		setDoc(logRef, logData)
@@ -770,6 +766,12 @@
 			.catch((error) => {
 				console.error('Error logging action:', error);
 			});
+	}
+
+	let selectedRowData = [];
+
+	function handleRowClick(data) {
+		selectedRowData = data;
 	}
 
 	// check module status
@@ -789,6 +791,16 @@
 		}
 	}
 
+	const validateEndDate = () => {
+		const startDate = new Date(document.getElementById('postSD').value);
+		const endDate = new Date(document.getElementById('postND').value);
+
+		if (startDate > endDate) {
+			alert('End date must be later than the start date.');
+			document.getElementById('postND').value = '';
+		}
+	};
+
 	onMount(async () => {
 		loclID = localStorage.getItem('loclID');
 		loclLN = localStorage.getItem('loclLN');
@@ -798,7 +810,6 @@
 
 		checkModuleAccess();
 		fetchUsers();
-		fetchSections();
 		fetchTransactions();
 	});
 </script>
@@ -1300,6 +1311,7 @@
 					<thead>
 						<tr>
 							<th>Post Title</th>
+							<th>Post Type</th>
 							<th>Posted By</th>
 						</tr>
 					</thead>
@@ -1307,6 +1319,7 @@
 						{#each limitedData as item (item.postID)}
 							<tr on:click={() => handleRowClick(item)}>
 								<td>{item.postNM}</td>
+								<td>{item.postCL}</td>
 								<td>{item.postBY}</td>
 								<!-- <td>{item.axonST}</td> -->
 							</tr>
@@ -1330,7 +1343,7 @@
 					<input
 						id="postNM"
 						class="input max-w-full"
-						bind:value={postNM} />
+						bind:value={selectedRowData.postNM} />
 				</div>
 			</div>
 			<div class="form-group flex lg:flex-row">
@@ -1341,7 +1354,7 @@
 					<textarea
 						id="postDC"
 						class="input max-w-full"
-						bind:value={postDC} />
+						bind:value={selectedRowData.postDC} />
 				</div>
 			</div>
 			<div class="form-group flex lg:flex-row">
@@ -1353,7 +1366,7 @@
 						id="postSD"
 						type="date"
 						class="input max-w-full"
-						bind:value={postSD} />
+						bind:value={selectedRowData.postSD} />
 				</div>
 				<div class="form-field w-full">
 					<label
@@ -1363,7 +1376,8 @@
 						id="postND"
 						type="date"
 						class="input max-w-full"
-						bind:value={postND} />
+						bind:value={selectedRowData.postND}
+						on:change={validateEndDate} />
 				</div>
 			</div>
 			<div class="form-group flex lg:flex-row">
@@ -1374,7 +1388,7 @@
 					<select
 						class="select"
 						id="postCL"
-						bind:value={postCL}>
+						bind:value={selectedRowData.postCL}>
 						<option>Information</option>
 						<option>Event</option>
 						<option>Announcement</option>

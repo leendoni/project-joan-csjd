@@ -132,11 +132,11 @@
 
 	function dateIsWithinRange(st, nd) {
 		const today = new Date();
-		const startDateParts = st.split('/');
-		const endDateParts = nd.split('/');
+		const startDateParts = st.split('-'); // Split by hyphen for "YYYY-MM-DD"
+		const endDateParts = nd.split('-');
 
-		const startDate = new Date(startDateParts[2], startDateParts[1] - 1, startDateParts[0]);
-		const endDate = new Date(endDateParts[2], endDateParts[1] - 1, endDateParts[0]);
+		const startDate = new Date(startDateParts[0], startDateParts[1] - 1, startDateParts[2]);
+		const endDate = new Date(endDateParts[0], endDateParts[1] - 1, endDateParts[2]);
 
 		return startDate <= today && today <= endDate;
 	}
@@ -631,6 +631,42 @@
 			<div class="flex flex-row gap-2">
 				{#each posts as post (post.postID)}
 					{#if loclCL === post.postTO || post.postTO === 'All' || !post.postTO}
+						{#if !posts.some((p) => dateIsWithinRange(p.postSD, p.postND) && (loclCL === p.postTO || p.postTO === 'All' || !p.postTO))}
+							<div class="flex flex-col lg:flex-row w-full gap-2">
+								{#each new Array(3) as _, i}
+									<div class="flex flex-col gap-2 p-4 w-full h-60 lg:w-1/3 rounded-xl bg-border">
+										<div class="h-1 rounded-xl bg-backgroundSecondary" />
+										<div class="flex flex-col w-full h-full items-center justify-center">
+											<p class="text-sm">There are currently no active posts.</p>
+										</div>
+									</div>
+								{/each}
+							</div>
+						{:else}
+							<div class="flex flex-col gap-2 p-4 w-full h-60 lg:w-1/3 rounded-xl bg-border">
+								{#if post.postCL === 'Information'}
+									<div class="h-1 rounded-xl bg-sky-600" />
+								{:else if post.postCL === 'Announcement'}
+									<div class="h-1 rounded-xl bg-red-600" />
+								{:else if post.postCL === 'Event'}
+									<div class="h-1 rounded-xl bg-amber-600" />
+								{/if}
+								<div class="flex flex-col w-full">
+									<p class="text-sm">{post.postCL}</p>
+									<p class="text-lg font-bold">{post.postNM}</p>
+									<p class="text-xs">by: {post.postBY}</p>
+								</div>
+								<hr />
+								<p class="inline-flex flex-col text-sm whitespace-normal">
+									{post.postDC}
+								</p>
+							</div>
+						{/if}
+					{/if}
+				{/each}
+
+				<!-- {#each posts as post (post.postID)}
+					{#if loclCL === post.postTO || post.postTO === 'All' || !post.postTO}
 						<div class="flex flex-col gap-2 p-4 w-full h-60 lg:w-1/3 rounded-xl bg-border">
 							{#if post.postCL === 'Information'}
 								<div class="h-1 rounded-xl bg-sky-600" />
@@ -651,7 +687,7 @@
 						</div>
 					{/if}
 				{/each}
-				<!-- {#if !posts.some((post) => dateIsWithinRange(post.postSD, post.postND) && (loclCL === post.postTO || post.postTO === 'All' || !post.postTO))}
+				{#if !posts.some((post) => dateIsWithinRange(post.postSD, post.postND) && (loclCL === post.postTO || post.postTO === 'All' || !post.postTO))}
 					<div class="flex flex-col lg:flex-row w-full gap-2">
 						<div class="flex flex-col gap-2 p-4 w-full h-60 lg:w-1/3 rounded-xl bg-border">
 							<div class="h-1 rounded-xl bg-backgroundSecondary" />
