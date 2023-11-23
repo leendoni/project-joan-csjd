@@ -405,11 +405,13 @@
 		gradQ3 = document.getElementById('gradQ3').value;
 		gradQ4 = document.getElementById('gradQ4').value;
 
-		userLN = document.getElementById('userLN').value;
-		userFN = document.getElementById('userFN').value;
-		userMN = document.getElementById('userMN').value;
+		userLN = selectedUserData.userLN;
+		userFN = selectedUserData.userFN;
+		userMN = selectedUserData.userMN;
 
 		let gradOF = `${userLN}, ${userFN} ${userMN}`;
+
+		console.log(gradOF);
 
 		const logRef = doc(db, 'csjd-main', 'data', 'grades', gradID);
 
