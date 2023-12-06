@@ -398,7 +398,7 @@
 	let gradQ1, gradQ2, gradQ3, gradQ4, userLN, userFN, userMN;
 
 	function handleTransact() {
-		let gradID = makeID();
+		let gradON = selectedSubjectData.subjNM;
 
 		gradQ1 = document.getElementById('gradQ1').value;
 		gradQ2 = document.getElementById('gradQ2').value;
@@ -413,11 +413,11 @@
 
 		console.log(gradOF);
 
-		const logRef = doc(db, 'csjd-main', 'data', 'grades', gradID);
+		const logRef = doc(db, 'csjd-main', 'data', 'grades', gradOF + ' ' + gradON);
 
 		const logData = {
 			gradOF,
-			gradON: selectedSubjectData.subjNM,
+			gradON,
 			gradQ1,
 			gradQ2,
 			gradQ3,
@@ -455,6 +455,27 @@
 		}
 	}
 
+	let gradeData = [];
+	let limitedGrades = [];
+
+	async function getGrades() {
+		try {
+			const q = collection(db, 'csjd-main', 'data', 'grades');
+			const fullName = `${loclLN}, ${loclFN} ${loclMN}`;
+			const snapshot = await getDocs(query(q, where('gradOF', '==', fullName)));
+
+			gradeData = snapshot.docs.map((doc) => {
+				const rawData = doc.data();
+				//const formattedDate = new Date(rawData.axonDT.seconds * 1000).toLocaleString();
+				return { ...rawData };
+			});
+
+			limitedGrades = gradeData.slice(currentPage * 6, (currentPage + 1) * 6);
+		} catch (error) {
+			console.error('Error fetching action logs from Firestore:', error);
+		}
+	}
+
 	onMount(async () => {
 		loclID = localStorage.getItem('loclID');
 		loclLN = localStorage.getItem('loclLN');
@@ -465,6 +486,8 @@
 		checkModuleAccess();
 		fetchSubjects();
 		fetchUsers();
+
+		getGrades();
 	});
 </script>
 
@@ -909,6 +932,29 @@
 		<div
 			class="flex flex-col h-auto w-full lg:w-5/6 pt-20 pb-8 pl-6 lg:pl-80 pr-6 gap-8 bg-white dark:bg-backgroundPrimary">
 			<div class="flex flex-col">
+				<h1 class="text-xl font-semibold">Student Masterlist</h1>
+				<p class="text-xs">Below is the list of all students under your advisement.</p>
+			</div>
+			<div class="flex w-full gap-4">
+				<table class="table table-hover table-compact">
+					<thead>
+						<tr>
+							<th>Male Students</th>
+						</tr>
+					</thead>
+					<tbody />
+				</table>
+				<table class="table table-hover table-compact">
+					<thead>
+						<tr>
+							<th>Female Students</th>
+						</tr>
+					</thead>
+					<tbody />
+				</table>
+			</div>
+			<div class="divider my-0" />
+			<div class="flex flex-col">
 				<h1 class="text-xl font-semibold">Subject Masterlist</h1>
 				<p class="text-xs">Below is the list of all subjects.</p>
 			</div>
@@ -1084,6 +1130,9 @@
 						<button
 							class="btn btn-outline-success"
 							on:click={() => fetchUsers()}>Refresh</button>
+						<button
+							class="btn btn-outline-success"
+							on:click={() => fetchUsers()}>Load</button>
 						<div class="pagination">
 							<button
 								class="btn"
@@ -1131,6 +1180,7 @@
 								<th>Second Quarter</th>
 								<th>Third Quarter</th>
 								<th>Fourth Quarter</th>
+								<th>Final Grade</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -1141,25 +1191,66 @@
 										<input
 											id="gradQ1"
 											class="input max-w-full"
+											maxlength="2"
 											bind:value={user.gradQ1} />
 									</td>
 									<td>
 										<input
 											id="gradQ2"
 											class="input max-w-full"
+											maxlength="2"
 											bind:value={user.gradQ2} />
 									</td>
 									<td>
 										<input
 											id="gradQ3"
 											class="input max-w-full"
+											maxlength="2"
 											bind:value={user.gradQ3} />
 									</td>
 									<td>
 										<input
 											id="gradQ4"
 											class="input max-w-full"
+											maxlength="2"
 											bind:value={user.gradQ4} />
+									</td>
+									<td
+										class=" font-bold
+    {(parseInt(user.gradQ1) +
+											parseInt(user.gradQ2) +
+											parseInt(user.gradQ3) +
+											parseInt(user.gradQ4)) /
+											4 <
+										74.5
+											? 'bg-red-200'
+											: (parseInt(user.gradQ1) +
+													parseInt(user.gradQ2) +
+													parseInt(user.gradQ3) +
+													parseInt(user.gradQ4)) /
+													4 <
+											  79.5
+											? 'bg-orange-200'
+											: (parseInt(user.gradQ1) +
+													parseInt(user.gradQ2) +
+													parseInt(user.gradQ3) +
+													parseInt(user.gradQ4)) /
+													4 <
+											  84.5
+											? 'bg-yellow-200'
+											: (parseInt(user.gradQ1) +
+													parseInt(user.gradQ2) +
+													parseInt(user.gradQ3) +
+													parseInt(user.gradQ4)) /
+													4 <
+											  89.5
+											? 'bg-green-200'
+											: 'bg-blue-200'}">
+										{(parseInt(user.gradQ1) +
+											parseInt(user.gradQ2) +
+											parseInt(user.gradQ3) +
+											parseInt(user.gradQ4)) /
+											4}
 									</td>
 								</tr>
 							{/each}

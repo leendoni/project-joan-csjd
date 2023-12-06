@@ -915,11 +915,11 @@
 			</div>
 			<div class="flex flex-row w-full gap-2">
 				{#if !isCreating && !isSelecting && !isEditing}
-					<button
+					<!-- <button
 						class="btn btn-outline-primary btn-block"
 						on:click={() => (isCreating = true)}>
 						Create New Subject
-					</button>
+					</button> -->
 				{:else if isCreating}
 					<button
 						class="btn btn-outline-success btn-block"

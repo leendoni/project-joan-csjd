@@ -269,6 +269,7 @@
 		}
 
 		const updatedData = {
+			userOR: selectedUserData.userOR,
 			userST: selectedUserData.userST,
 			userCL: selectedUserData.userCL,
 			userDP: selectedUserData.userDP,
@@ -455,149 +456,165 @@
 	import ExcelJS from 'exceljs';
 
 	async function handleExport() {
-		const templateUrl = '/Reports.xlsx';
-		const templateResponse = await fetch(templateUrl);
-		const templateBuffer = await templateResponse.arrayBuffer();
+		// const templateUrl = '/Reports.xlsx';
+		// const templateResponse = await fetch(templateUrl);
+		// const templateBuffer = await templateResponse.arrayBuffer();
 
-		const workbook = new ExcelJS.Workbook();
-		await workbook.xlsx.load(templateBuffer);
+		// const workbook = new ExcelJS.Workbook();
+		// await workbook.xlsx.load(templateBuffer);
 
-		if (selectedUserData.userCL === 'Student') {
-			workbook.eachSheet((sheet) => {
-				if (sheet.name !== 'UserInformationA') {
-					workbook.removeWorksheet(sheet.id);
-				}
-			});
+		// if (selectedUserData.userCL === 'Student') {
+		// 	workbook.eachSheet((sheet) => {
+		// 		if (sheet.name !== 'UserInformationA') {
+		// 			workbook.removeWorksheet(sheet.id);
+		// 		}
+		// 	});
 
-			const worksheet = workbook.getWorksheet('UserInformationA');
+		// 	const worksheet = workbook.getWorksheet('UserInformationA');
 
-			worksheet.getCell('I9').value = selectedUserData.userST;
-			worksheet.getCell('I10').value = selectedUserData.userCL;
+		// 	worksheet.getCell('I9').value = selectedUserData.userST;
+		// 	worksheet.getCell('I10').value = selectedUserData.userCL;
 
-			worksheet.getCell('I12').value = selectedUserData.userUN;
-			worksheet.getCell('I13').value = selectedUserData.userUN.replace('@csjd.joan.cloud', '');
+		// 	worksheet.getCell('I12').value = selectedUserData.userUN;
+		// 	worksheet.getCell('I13').value = selectedUserData.userUN.replace('@csjd.joan.cloud', '');
 
-			worksheet.getCell('I16').value = selectedUserData.userDP;
+		// 	worksheet.getCell('I16').value = selectedUserData.userDP;
 
-			worksheet.getCell('I18').value = selectedUserData.userLR;
-			worksheet.getCell('I19').value = selectedUserData.userYR;
-			worksheet.getCell('I20').value = selectedUserData.userSC;
+		// 	worksheet.getCell('I18').value = selectedUserData.userLR;
+		// 	worksheet.getCell('I19').value = selectedUserData.userYR;
+		// 	worksheet.getCell('I20').value = selectedUserData.userSC;
 
-			worksheet.getCell('I22').value = selectedUserData.userLN;
-			worksheet.getCell('I23').value = selectedUserData.userFN;
-			worksheet.getCell('I24').value = selectedUserData.userMN;
-			worksheet.getCell('I25').value = selectedUserData.userSF;
-			worksheet.getCell('I26').value = selectedUserData.userSX;
+		// 	worksheet.getCell('I22').value = selectedUserData.userLN;
+		// 	worksheet.getCell('I23').value = selectedUserData.userFN;
+		// 	worksheet.getCell('I24').value = selectedUserData.userMN;
+		// 	worksheet.getCell('I25').value = selectedUserData.userSF;
+		// 	worksheet.getCell('I26').value = selectedUserData.userSX;
 
-			worksheet.getCell('I28').value = selectedUserData.userAD;
-			worksheet.getCell('I29').value = selectedUserData.userCN;
-			worksheet.getCell('I30').value = selectedUserData.userEC;
+		// 	worksheet.getCell('I28').value = selectedUserData.userAD;
+		// 	worksheet.getCell('I29').value = selectedUserData.userCN;
+		// 	worksheet.getCell('I30').value = selectedUserData.userEC;
 
-			worksheet.getCell('I32').value = selectedUserData.userMA;
-			worksheet.getCell('I33').value = selectedUserData.userFA;
-			worksheet.getCell('I34').value = selectedUserData.userGA;
-			worksheet.getCell('I35').value = selectedUserData.userCP;
+		// 	worksheet.getCell('I32').value = selectedUserData.userMA;
+		// 	worksheet.getCell('I33').value = selectedUserData.userFA;
+		// 	worksheet.getCell('I34').value = selectedUserData.userGA;
+		// 	worksheet.getCell('I35').value = selectedUserData.userCP;
 
-			worksheet.getCell('I40').value = selectedUserData.userP1;
-			worksheet.getCell('I41').value = selectedUserData.userP2;
-			worksheet.getCell('I42').value = selectedUserData.userP3;
-			worksheet.getCell('R40').value = selectedUserData.userP4;
-			worksheet.getCell('R41').value = selectedUserData.userP5;
-			worksheet.getCell('R42').value = selectedUserData.userP6;
+		// 	worksheet.getCell('I40').value = selectedUserData.userP1;
+		// 	worksheet.getCell('I41').value = selectedUserData.userP2;
+		// 	worksheet.getCell('I42').value = selectedUserData.userP3;
+		// 	worksheet.getCell('R40').value = selectedUserData.userP4;
+		// 	worksheet.getCell('R41').value = selectedUserData.userP5;
+		// 	worksheet.getCell('R42').value = selectedUserData.userP6;
 
-			worksheet.getCell('J45').value = selectedUserData.userR1 ? 'X' : '';
-			worksheet.getCell('J47').value = selectedUserData.userR2 ? 'X' : '';
-			worksheet.getCell('J49').value = selectedUserData.userR3 ? 'X' : '';
-			worksheet.getCell('J51').value = selectedUserData.userR4 ? 'X' : '';
-			worksheet.getCell('X45').value = selectedUserData.userR5 ? 'X' : '';
-			worksheet.getCell('X47').value = selectedUserData.userR6 ? 'X' : '';
-			worksheet.getCell('X49').value = selectedUserData.userR7 ? 'X' : '';
-			worksheet.getCell('X51').value = selectedUserData.userR8 ? 'X' : '';
+		// 	worksheet.getCell('J45').value = selectedUserData.userR1 ? 'X' : '';
+		// 	worksheet.getCell('J47').value = selectedUserData.userR2 ? 'X' : '';
+		// 	worksheet.getCell('J49').value = selectedUserData.userR3 ? 'X' : '';
+		// 	worksheet.getCell('J51').value = selectedUserData.userR4 ? 'X' : '';
+		// 	worksheet.getCell('X45').value = selectedUserData.userR5 ? 'X' : '';
+		// 	worksheet.getCell('X47').value = selectedUserData.userR6 ? 'X' : '';
+		// 	worksheet.getCell('X49').value = selectedUserData.userR7 ? 'X' : '';
+		// 	worksheet.getCell('X51').value = selectedUserData.userR8 ? 'X' : '';
 
-			worksheet.protect('joan-csjd-main', {
-				selectLockedCells: false
-			});
+		// 	worksheet.protect('joan-csjd-main', {
+		// 		selectLockedCells: false
+		// 	});
 
-			const buffer = await workbook.xlsx.writeBuffer();
+		// 	const buffer = await workbook.xlsx.writeBuffer();
 
-			const blob = new Blob([buffer], {
-				type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-			});
+		// 	const blob = new Blob([buffer], {
+		// 		type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+		// 	});
 
-			const url = URL.createObjectURL(blob);
+		// 	const url = URL.createObjectURL(blob);
 
-			const a = document.createElement('a');
-			a.href = url;
-			a.download = `UIS-${selectedUserData.userUN}.xlsx`;
-			a.click();
+		// 	const a = document.createElement('a');
+		// 	a.href = url;
+		// 	a.download = `UIS-${selectedUserData.userUN}.xlsx`;
+		// 	a.click();
 
-			handleAction(
-				'Successful',
-				`Exported UIS of user ${selectedUserData.userUN}`,
-				`${loclLN}, ${loclFN} ${loclMN}`
-			);
+		// 	handleAction(
+		// 		'Successful',
+		// 		`Exported UIS of user ${selectedUserData.userUN}`,
+		// 		`${loclLN}, ${loclFN} ${loclMN}`
+		// 	);
 
-			URL.revokeObjectURL(url);
-		} else {
-			workbook.eachSheet((sheet) => {
-				if (sheet.name !== 'UserInformationB') {
-					workbook.removeWorksheet(sheet.id);
-				}
-			});
+		// 	URL.revokeObjectURL(url);
+		// } else {
+		// 	workbook.eachSheet((sheet) => {
+		// 		if (sheet.name !== 'UserInformationB') {
+		// 			workbook.removeWorksheet(sheet.id);
+		// 		}
+		// 	});
 
-			const worksheet = workbook.getWorksheet('UserInformationB');
+		// 	const worksheet = workbook.getWorksheet('UserInformationB');
 
-			worksheet.getCell('I9').value = selectedUserData.userST;
-			worksheet.getCell('I10').value = selectedUserData.userCL;
+		// 	worksheet.getCell('I9').value = selectedUserData.userST;
+		// 	worksheet.getCell('I10').value = selectedUserData.userCL;
 
-			worksheet.getCell('I12').value = selectedUserData.userUN;
-			worksheet.getCell('I13').value = selectedUserData.userUN.replace('@csjd.joan.cloud', '');
+		// 	worksheet.getCell('I12').value = selectedUserData.userUN;
+		// 	worksheet.getCell('I13').value = selectedUserData.userUN.replace('@csjd.joan.cloud', '');
 
-			worksheet.getCell('I16').value = selectedUserData.userFN;
-			worksheet.getCell('I17').value = selectedUserData.userLN;
-			worksheet.getCell('I18').value = selectedUserData.userMN;
-			worksheet.getCell('I19').value = selectedUserData.userSF;
-			worksheet.getCell('I20').value = selectedUserData.userSX;
+		// 	worksheet.getCell('I16').value = selectedUserData.userFN;
+		// 	worksheet.getCell('I17').value = selectedUserData.userLN;
+		// 	worksheet.getCell('I18').value = selectedUserData.userMN;
+		// 	worksheet.getCell('I19').value = selectedUserData.userSF;
+		// 	worksheet.getCell('I20').value = selectedUserData.userSX;
 
-			worksheet.getCell('I22').value = selectedUserData.userAD;
-			worksheet.getCell('I23').value = selectedUserData.userCN;
-			worksheet.getCell('I24').value = selectedUserData.userEC;
+		// 	worksheet.getCell('I22').value = selectedUserData.userAD;
+		// 	worksheet.getCell('I23').value = selectedUserData.userCN;
+		// 	worksheet.getCell('I24').value = selectedUserData.userEC;
 
-			worksheet.getCell('I26').value = selectedUserData.userCP;
+		// 	worksheet.getCell('I26').value = selectedUserData.userCP;
 
-			worksheet.getCell('I31').value = selectedUserData.userP1;
-			worksheet.getCell('I32').value = selectedUserData.userP2;
-			worksheet.getCell('I33').value = selectedUserData.userP3;
-			worksheet.getCell('R31').value = selectedUserData.userP4;
-			worksheet.getCell('R32').value = selectedUserData.userP5;
-			worksheet.getCell('R33').value = selectedUserData.userP6;
+		// 	worksheet.getCell('I31').value = selectedUserData.userP1;
+		// 	worksheet.getCell('I32').value = selectedUserData.userP2;
+		// 	worksheet.getCell('I33').value = selectedUserData.userP3;
+		// 	worksheet.getCell('R31').value = selectedUserData.userP4;
+		// 	worksheet.getCell('R32').value = selectedUserData.userP5;
+		// 	worksheet.getCell('R33').value = selectedUserData.userP6;
 
-			worksheet.protect('joan-csjd-main', {
-				selectLockedCells: false
-			});
+		// 	worksheet.protect('joan-csjd-main', {
+		// 		selectLockedCells: false
+		// 	});
 
-			const buffer = await workbook.xlsx.writeBuffer();
+		// 	const buffer = await workbook.xlsx.writeBuffer();
 
-			const blob = new Blob([buffer], {
-				type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-			});
+		// 	const blob = new Blob([buffer], {
+		// 		type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+		// 	});
 
-			const url = URL.createObjectURL(blob);
+		// 	const url = URL.createObjectURL(blob);
 
-			const a = document.createElement('a');
-			a.href = url;
-			a.download = `UIS-${selectedUserData.userUN}.xlsx`;
-			a.click();
+		// 	const a = document.createElement('a');
+		// 	a.href = url;
+		// 	a.download = `UIS-${selectedUserData.userUN}.xlsx`;
+		// 	a.click();
 
-			handleAction(
-				'Successful',
-				`Exported UIS of user ${selectedUserData.userUN}`,
-				`${loclLN}, ${loclFN} ${loclMN}`
-			);
+		// 	handleAction(
+		// 		'Successful',
+		// 		`Exported UIS of user ${selectedUserData.userUN}`,
+		// 		`${loclLN}, ${loclFN} ${loclMN}`
+		// 	);
 
-			URL.revokeObjectURL(url);
-		}
+		// 	URL.revokeObjectURL(url);
+		// }
+		// Create a new PDF document
+		const doc = new jsPDF();
+
+		// Add content to the PDF
+		doc.text('Colegio de San Juan de Dios, Inc.', 10, 10);
+		doc.text('Registration and Admission Form | STUDENT COPY', 10, 15);
+
+		doc.text(selectedUserData.userLN, 10, 25);
+		doc.text(selectedUserData.userFN, 80, 25);
+		doc.text(selectedUserData.userMN, 160, 25);
+
+		// Save the PDF and open a print dialog
+		doc.autoPrint();
+		doc.save('generated.pdf');
 	}
+
+	import jsPDF from 'jspdf';
 
 	const departmentOptions = [
 		'Pre-Elementary',
@@ -717,6 +734,18 @@
 		} catch (error) {
 			console.error('Error fetching module data:', error);
 		}
+	}
+
+	function printPDF() {
+		const pdfUrl = 'your-pdf-file.pdf';
+
+		// Open the PDF file in a new tab
+		const pdfWindow = window.open(pdfUrl);
+
+		// Once the PDF is loaded, trigger the print dialog
+		pdfWindow.onload = function () {
+			pdfWindow.print();
+		};
 	}
 
 	onMount(async () => {
