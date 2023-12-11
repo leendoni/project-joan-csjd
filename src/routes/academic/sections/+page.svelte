@@ -8,8 +8,10 @@
 		getDoc,
 		getDocs,
 		getFirestore,
+		query,
 		setDoc,
-		updateDoc
+		updateDoc,
+		where
 	} from 'firebase/firestore';
 
 	const firebaseConfig = {
@@ -155,6 +157,52 @@
 					option.textContent = `${facultyUser.userLN}, ${facultyUser.userFN} ${facultyUser.userMN}`;
 					adviserSelect.appendChild(option);
 				});
+			}
+		} catch (error) {
+			console.error('Error fetching user data:', error);
+		}
+	}
+
+	let users2 = [];
+	let limitedUsers = [];
+
+	async function fetchUsers2() {
+		try {
+			const db = getFirestore(app);
+			const usersCollection = collection(db, 'csjd-main', 'data', 'users');
+			const querySnapshot = await getDocs(
+				query(usersCollection, where('userST', 'in', ['Enrolled']))
+			);
+
+			users2 = querySnapshot.docs.map((doc) => doc.data());
+			users2 = users2.filter((user) => user.userCL === 'Student');
+
+			switch (selectedFilter) {
+				case 'Pre-Registered':
+					limitedUsers = users2
+						.filter((user) => user.userST.toLowerCase() === 'pre-registered')
+						.slice(currentPage * 6, (currentPage + 1) * 6);
+					break;
+				case 'Registered':
+					limitedUsers = users2
+						.filter((user) => user.userST.toLowerCase() === 'registered')
+						.slice(currentPage * 6, (currentPage + 1) * 6);
+					break;
+				case 'Enrolled':
+					limitedUsers = users2
+						.filter((user) => user.userST.toLowerCase() === 'enrolled')
+						.slice(currentPage * 6, (currentPage + 1) * 6);
+					break;
+				case 'Archived':
+					limitedUsers = users2
+						.filter((user) => user.userST.toLowerCase() === 'archived')
+						.slice(currentPage * 6, (currentPage + 1) * 6);
+					break;
+				case 'Clear Filter':
+					limitedUsers = users2.slice(currentPage * 6, (currentPage + 1) * 6);
+					break;
+				default:
+					limitedUsers = users2.slice(currentPage * 6, (currentPage + 1) * 6);
 			}
 		} catch (error) {
 			console.error('Error fetching user data:', error);
@@ -1065,7 +1113,46 @@
 		checkModuleAccess();
 		fetchSections();
 		fetchUsers();
+		fetchUsers2();
 	});
+
+	import jsPDF from 'jspdf';
+
+	// Function to generate and export PDF
+	function exportToPDF() {
+		const pdf = new jsPDF();
+		let y = 15; // Initial Y position for content
+
+		// Filter male students
+		const maleStudents = limitedUsers.filter((user) => user.userSX === 'Male');
+		// Filter female students
+		const femaleStudents = limitedUsers.filter((user) => user.userSX === 'Female');
+
+		// Set the table headers for male and female students
+		pdf.setFont('helvetica', 'bold');
+		pdf.setFontSize(12);
+		pdf.text('Male Students', 10, y);
+		pdf.text('Female Students', 100, y);
+		y += 10;
+
+		// Set the table content for male students
+		pdf.setFont('helvetica', '');
+		pdf.setFontSize(10);
+
+		maleStudents.forEach((user, index) => {
+			const content = `${user.userLN}, ${user.userFN} ${user.userMN}`;
+			pdf.text(content, 10, y + index * 10);
+		});
+
+		// Set the table content for female students
+		femaleStudents.forEach((user, index) => {
+			const content = `${user.userLN}, ${user.userFN} ${user.userMN}`;
+			pdf.text(content, 100, y + index * 10);
+		});
+
+		// Save the PDF
+		pdf.save('students.pdf');
+	}
 </script>
 
 <div class="flex flex-col w-screen h-screen overflow-x-hidden bg-border">
@@ -1705,6 +1792,45 @@
 								{/each}
 							</tbody>
 						</table>
+					</div>
+					<button
+						class="btn btn-outline-success"
+						on:click={() => exportToPDF()}>
+						Export
+					</button>
+					<div class="flex w-full gap-4">
+						<table
+							id="maleStudentsTable"
+							class="table table-hover table-compact">
+							<thead>
+								<tr>
+									<th>Male Students</th>
+								</tr>
+							</thead>
+							<tbody>
+								{#each limitedUsers.filter((user) => user.userSX === 'Male') as user (user.userID)}
+									<tr on:input={() => handleRowClickUser(user)}>
+										<td>{user.userLN}, {user.userFN} {user.userMN}</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
+						<tabl
+							id="femaleStudentsTable"
+							class="table table-hover table-compact">
+							<thead>
+								<tr>
+									<th>Female Students</th>
+								</tr>
+							</thead>
+							<tbody>
+								{#each limitedUsers.filter((user) => user.userSX === 'Female') as user (user.userID)}
+									<tr on:input={() => handleRowClickUser(user)}>
+										<td>{user.userLN}, {user.userFN} {user.userMN}</td>
+									</tr>
+								{/each}
+							</tbody>
+						</tabl>
 					</div>
 				{/if}
 			{/if}

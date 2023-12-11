@@ -889,27 +889,6 @@
 		<div class="form-group flex lg:flex-row">
 			<div class="form-field w-full">
 				<label
-					for="acadSD"
-					class="form-label">Start Date</label>
-				<input
-					id="acadSD"
-					type="date"
-					class="input max-w-full" />
-			</div>
-			<div class="form-field w-full">
-				<label
-					for="acadED"
-					class="form-label">End Date</label>
-				<input
-					id="acadED"
-					type="date"
-					class="input max-w-full"
-					on:change={validateEndDate} />
-			</div>
-		</div>
-		<div class="form-group flex lg:flex-row">
-			<div class="form-field w-full">
-				<label
 					for="nrolSD"
 					class="form-label">Registration Start Date</label>
 				<input
@@ -926,6 +905,27 @@
 					type="date"
 					class="input max-w-full"
 					on:change={validateEndDate2} />
+			</div>
+		</div>
+		<div class="form-group flex lg:flex-row">
+			<div class="form-field w-full">
+				<label
+					for="acadSD"
+					class="form-label">A.Y. Start Date</label>
+				<input
+					id="acadSD"
+					type="date"
+					class="input max-w-full" />
+			</div>
+			<div class="form-field w-full">
+				<label
+					for="acadED"
+					class="form-label">A.Y. End Date</label>
+				<input
+					id="acadED"
+					type="date"
+					class="input max-w-full"
+					on:change={validateEndDate} />
 			</div>
 		</div>
 		<div class="divider my-0" />

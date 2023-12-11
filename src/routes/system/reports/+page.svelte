@@ -56,14 +56,22 @@
 					.filter((item) => item.axonST.toLowerCase() === 'unsuccessful')
 					.slice(currentPage * 6, (currentPage + 1) * 6);
 				break;
-			case 'Recent First':
-				data.sort((a, b) => new Date(b.axonDT) - new Date(a.axonDT));
-				limitedData = data.slice(currentPage * 6, (currentPage + 1) * 6);
+			case 'Selected Date':
+				const selectedDate = document.getElementById('picker').value; // Get the selected date from the datepicker
+
+				// Filter data based on the selected date
+				limitedData = data
+					.filter((item) => {
+						const pickerDate = new Date(selectedDate).toLocaleDateString();
+						const formattedDate = new Date(item.axonDT.seconds * 1000).toLocaleDateString();
+						return formattedDate === pickerDate;
+					})
+					.slice(currentPage * 6, (currentPage + 1) * 6);
 				break;
-			case 'Oldest First':
-				data.sort((a, b) => new Date(a.axonDT) - new Date(b.axonDT));
-				limitedData = data.slice(currentPage * 6, (currentPage + 1) * 6);
-				break;
+			// case 'Selected Date':
+			// 	data.sort((a, b) => new Date(b.axonDT) - new Date(a.axonDT));
+			// 	limitedData = data.slice(currentPage * 6, (currentPage + 1) * 6);
+			// 	break;
 			case 'Clear Filter':
 				limitedData = data.slice(currentPage * 6, (currentPage + 1) * 6);
 				break;
@@ -243,6 +251,21 @@
 		await getActionLogs();
 		checkModuleAccess();
 	});
+
+	let datePicker;
+
+	function dateFiltration() {
+		// Add an event listener to the datepicker to capture the selected date
+		datePicker = document.getElementById('picker');
+		datePicker.addEventListener('change', filterLogs);
+	}
+
+	let selectedDate = ''; // Variable to hold the selected date
+
+	function filterLogs() {
+		selectedDate = datePicker.value; // Update the selected date when it changes
+		updateLimitedData(); // Apply filters including the selected date
+	}
 </script>
 
 <div class="flex flex-col w-screen h-screen overflow-x-hidden bg-border">
@@ -718,13 +741,8 @@
 							<div class="divider my-0" />
 							<p
 								class="dropdown-item text-sm"
-								on:click={() => applyFilter('Recent First')}>
-								Recent First
-							</p>
-							<p
-								class="dropdown-item text-sm"
-								on:click={() => applyFilter('Oldest First')}>
-								Oldest First
+								on:click={() => applyFilter('Selected Date')}>
+								Selected Date
 							</p>
 							<div class="divider my-0" />
 							<p
@@ -736,6 +754,10 @@
 					</div>
 				</div>
 				<div class="flex flex-row gap-2">
+					<input
+						id="picker"
+						type="date"
+						class="input max-w-full" />
 					<button
 						class="btn btn-outline-success"
 						on:click={() => getActionLogs()}>Refresh</button>

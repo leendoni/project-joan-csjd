@@ -274,6 +274,7 @@
 
 	function handleRowClickUser(userData) {
 		selectedUserData = userData;
+		console.log(selectedUserData);
 	}
 
 	let isCreating = false;
@@ -397,13 +398,17 @@
 
 	let gradQ1, gradQ2, gradQ3, gradQ4, userLN, userFN, userMN;
 
+	function posted() {
+		alert('Grades updated.');
+	}
+
 	function handleTransact() {
 		let gradON = selectedSubjectData.subjNM;
 
-		gradQ1 = document.getElementById('gradQ1').value;
-		gradQ2 = document.getElementById('gradQ2').value;
-		gradQ3 = document.getElementById('gradQ3').value;
-		gradQ4 = document.getElementById('gradQ4').value;
+		gradQ1 = selectedUserData.gradQ1;
+		gradQ2 = selectedUserData.gradQ2;
+		gradQ3 = selectedUserData.gradQ3;
+		gradQ4 = selectedUserData.gradQ4;
 
 		userLN = selectedUserData.userLN;
 		userFN = selectedUserData.userFN;
@@ -1172,20 +1177,20 @@
 					</div>
 				</div>
 				<div class="flex w-full">
-					<table class="table table-hover table-compact">
+					<table class="table table-compact">
 						<thead>
 							<tr>
 								<th>Full Name</th>
-								<th>First Quarter</th>
-								<th>Second Quarter</th>
-								<th>Third Quarter</th>
-								<th>Fourth Quarter</th>
+								<th>1st Quarter</th>
+								<th>2nd Quarter</th>
+								<th>3rd Quarter</th>
+								<th>4th Quarter</th>
 								<th>Final Grade</th>
 							</tr>
 						</thead>
 						<tbody>
 							{#each limitedUsers as user (user.userID)}
-								<tr on:click={() => handleRowClickUser(user)}>
+								<tr on:input={() => handleRowClickUser(user)}>
 									<td>{user.userLN}, {user.userFN} {user.userMN}</td>
 									<td>
 										<input
@@ -1252,6 +1257,11 @@
 											parseInt(user.gradQ4)) /
 											4}
 									</td>
+									<td>
+										<button
+											class="btn btn-outline-success"
+											on:click={() => handleTransact()}>Save</button>
+									</td>
 								</tr>
 							{/each}
 						</tbody>
@@ -1260,7 +1270,7 @@
 			{/if}
 			<button
 				class="btn btn-outline-success"
-				on:click={() => handleTransact()}>Post Grades</button>
+				on:click={() => posted()}>Post Grades</button>
 		</div>
 	{:else if !modlST}
 		<div

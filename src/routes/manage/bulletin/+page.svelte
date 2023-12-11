@@ -762,6 +762,7 @@
 					`User ${loclLN}, ${loclFN} ${loclMN} posted ${postID}`,
 					`${loclLN}, ${loclFN} ${loclMN}`
 				);
+				alert('Posted.');
 			})
 			.catch((error) => {
 				console.error('Error logging action:', error);

@@ -66,6 +66,8 @@
 
 				handleAction('Successful', `Updated section ${sectNM}`, `${loclLN}, ${loclFN} ${loclMN}`);
 
+				alert('Schedule created.');
+
 				isSelecting = true;
 				isEditing = false;
 				isCreating = false;

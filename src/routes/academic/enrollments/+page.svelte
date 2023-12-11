@@ -210,6 +210,8 @@
 
 			handleAction('Successful', `Added user ${userUN}`, `${loclLN}, ${loclFN} ${loclMN}`);
 
+			alert('User added.');
+
 			document.getElementById('userST').value = '';
 			document.getElementById('userCL').value = '';
 			document.getElementById('userDP').value = '';
@@ -327,6 +329,7 @@
 				`Updated user ${selectedUserData.userUN}`,
 				`${loclLN}, ${loclFN} ${loclMN}`
 			);
+			alert('User updated.');
 			fetchUsers();
 			isEditing = false;
 			isSelecting = true;
@@ -1674,7 +1677,7 @@
 								id="userR1"
 								disabled
 								bind:checked={selectedUserData.userR1} />
-							<span>Requirement 1</span>
+							<span>PSA Birth Certificate</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
@@ -1683,7 +1686,7 @@
 								id="userR2"
 								disabled
 								bind:checked={selectedUserData.userR2} />
-							<span>Requirement 2</span>
+							<span>Baptismal Certificate</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
@@ -1692,7 +1695,7 @@
 								id="userR3"
 								disabled
 								bind:checked={selectedUserData.userR3} />
-							<span>Requirement 3</span>
+							<span>Certificate of Good Moral</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
@@ -1701,7 +1704,7 @@
 								id="userR4"
 								disabled
 								bind:checked={selectedUserData.userR4} />
-							<span>Requirement 4</span>
+							<span>Report Card with LRN</span>
 						</div>
 					</div>
 					<div class="form-group flex lg:flex-row">
@@ -1712,7 +1715,7 @@
 								id="userR5"
 								disabled
 								bind:checked={selectedUserData.userR5} />
-							<span>Requirement 5</span>
+							<span>Form 137-A or Form 10</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
@@ -1721,7 +1724,7 @@
 								id="userR6"
 								disabled
 								bind:checked={selectedUserData.userR6} />
-							<span>Requirement 6</span>
+							<span>ECCD Checklist</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
@@ -1730,7 +1733,7 @@
 								id="userR7"
 								disabled
 								bind:checked={selectedUserData.userR7} />
-							<span>Requirement 7</span>
+							<span>NCAE / NAT Result</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
@@ -1739,7 +1742,7 @@
 								id="userR8"
 								disabled
 								bind:checked={selectedUserData.userR8} />
-							<span>Requirement 8</span>
+							<span>2x2 Colored ID Picture</span>
 						</div>
 					</div>
 				{/if}
@@ -2043,7 +2046,7 @@
 								id="userR1"
 								disabled
 								bind:checked={selectedUserData.userR1} />
-							<span>Requirement 1</span>
+							<span>PSA Birth Certificate</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
@@ -2052,7 +2055,7 @@
 								id="userR2"
 								disabled
 								bind:checked={selectedUserData.userR2} />
-							<span>Requirement 2</span>
+							<span>Baptismal Certificate</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
@@ -2061,7 +2064,7 @@
 								id="userR3"
 								disabled
 								bind:checked={selectedUserData.userR3} />
-							<span>Requirement 3</span>
+							<span>Certificate of Good Moral</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
@@ -2070,7 +2073,7 @@
 								id="userR4"
 								disabled
 								bind:checked={selectedUserData.userR4} />
-							<span>Requirement 4</span>
+							<span>Report Card with LRN</span>
 						</div>
 					</div>
 					<div class="form-group flex lg:flex-row">
@@ -2081,7 +2084,7 @@
 								id="userR5"
 								disabled
 								bind:checked={selectedUserData.userR5} />
-							<span>Requirement 5</span>
+							<span>Form 137-A or Form 10</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
@@ -2090,7 +2093,7 @@
 								id="userR6"
 								disabled
 								bind:checked={selectedUserData.userR6} />
-							<span>Requirement 6</span>
+							<span>ECCD Checklist</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
@@ -2099,7 +2102,7 @@
 								id="userR7"
 								disabled
 								bind:checked={selectedUserData.userR7} />
-							<span>Requirement 7</span>
+							<span>NCAE / NAT Result</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
@@ -2108,7 +2111,7 @@
 								id="userR8"
 								disabled
 								bind:checked={selectedUserData.userR8} />
-							<span>Requirement 8</span>
+							<span>2x2 Colored ID Picture</span>
 						</div>
 					</div>
 				{/if}
@@ -2377,28 +2380,28 @@
 								type="checkbox"
 								class="checkbox"
 								id="userR1" />
-							<span>Requirement 1</span>
+							<span>PSA Birth Certificate</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
 								type="checkbox"
 								class="checkbox"
 								id="userR2" />
-							<span>Requirement 2</span>
+							<span>Baptismal Certificate</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
 								type="checkbox"
 								class="checkbox"
 								id="userR3" />
-							<span>Requirement 3</span>
+							<span>Certificate of Good Moral</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
 								type="checkbox"
 								class="checkbox"
 								id="userR4" />
-							<span>Requirement 4</span>
+							<span>Report Card with LRN</span>
 						</div>
 					</div>
 					<div class="form-group flex lg:flex-row">
@@ -2407,28 +2410,28 @@
 								type="checkbox"
 								class="checkbox"
 								id="userR5" />
-							<span>Requirement 5</span>
+							<span>Form 137-A or Form 10</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
 								type="checkbox"
 								class="checkbox"
 								id="userR6" />
-							<span>Requirement 6</span>
+							<span>ECCD Checklist</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
 								type="checkbox"
 								class="checkbox"
 								id="userR7" />
-							<span>Requirement 7</span>
+							<span>NCAE / NAT Result</span>
 						</div>
 						<div class="form-field flex flex-row items-center w-full">
 							<input
 								type="checkbox"
 								class="checkbox"
 								id="userR8" />
-							<span>Requirement 8</span>
+							<span>2x2 Colored ID Picture</span>
 						</div>
 					</div>
 				{/if}

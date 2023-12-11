@@ -49,6 +49,8 @@
 
 			handleAction('Successful', `Added section ${sectNM}`, `${loclLN}, ${loclFN} ${loclMN}`);
 
+			alert('Section created.');
+
 			document.getElementById('sectST').value = '';
 			document.getElementById('sectDP').value = '';
 			document.getElementById('sectYR').value = '';
